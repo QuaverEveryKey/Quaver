@@ -41,7 +41,7 @@ namespace Quaver.Shared.Screens.Gameplay.Replays
         /// <summary>
         ///     The last recorded key press state.
         /// </summary>
-        private ReplayKeyPressState LastKeyPressState { get; set; }
+        private ulong LastKeyPressState { get; set; }
 
         /// <summary>
         ///     If the replay should be captured.
@@ -59,7 +59,7 @@ namespace Quaver.Shared.Screens.Gameplay.Replays
             var name = Screen.InReplayMode && Screen.LoadedReplay != null ? Screen.LoadedReplay.PlayerName : ConfigManager.Username.Value;
             var mods = Screen.InReplayMode && Screen.LoadedReplay != null ? Screen.LoadedReplay.Mods : ModManager.Mods;
 
-            Replay = new Replay(Screen.Map.Mode, name, mods, Screen.MapHash);
+            Replay = new Replay(Screen.Map.KeyCount, name, mods, Screen.MapHash);
 
             // Add sample first frame.
             Replay.AddFrame(-10000, 0);
@@ -134,7 +134,7 @@ namespace Quaver.Shared.Screens.Gameplay.Replays
         /// <summary>
         ///     Adds a replay frame with the correct key press state.
         /// </summary>
-        private void AddFrame(ReplayKeyPressState state)
+        private void AddFrame(ulong state)
         {
             var manager = Screen.Ruleset.HitObjectManager as HitObjectManagerKeys;
             Replay.AddFrame((int)manager.CurrentAudioOffset, state);
@@ -144,7 +144,7 @@ namespace Quaver.Shared.Screens.Gameplay.Replays
         ///     Gets the current key press state from the binding store.
         /// </summary>
         /// <returns></returns>
-        private ReplayKeyPressState GetKeyPressState()
+        private ulong GetKeyPressState()
         {
             var inputManager = (KeysInputManager)Screen.Ruleset.InputManager;
             return BindingStoreToKeyPressState(inputManager.BindingStore);
@@ -155,15 +155,15 @@ namespace Quaver.Shared.Screens.Gameplay.Replays
         /// </summary>
         /// <param name="bindingStore"></param>
         /// <returns></returns>
-        private static ReplayKeyPressState BindingStoreToKeyPressState(IReadOnlyList<InputBindingKeys> bindingStore)
+        private static ulong BindingStoreToKeyPressState(IReadOnlyList<InputBindingKeys> bindingStore)
         {
-            ReplayKeyPressState state = 0;
+            ulong state = 0;
 
             for (var i = 0; i < bindingStore.Count; i++)
             {
                 var key = Replay.KeyLaneToPressState(i + 1);
 
-                if (bindingStore[i].Pressed && !state.HasFlag(key))
+                if (bindingStore[i].Pressed && !((state & key) == key))
                     state |= key;
             }
 

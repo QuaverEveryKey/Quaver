@@ -246,7 +246,7 @@ namespace Quaver.Shared.Screens.Selection.UI.Profile
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnSelectedGameModeChanged(object sender, BindableValueChangedEventArgs<GameMode> e)
+        private void OnSelectedGameModeChanged(object sender, BindableValueChangedEventArgs<int> e)
             => StartProfileLoadTask();
 
         /// <summary>

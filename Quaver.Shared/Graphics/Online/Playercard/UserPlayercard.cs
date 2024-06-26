@@ -169,8 +169,8 @@ namespace Quaver.Shared.Graphics.Online.Playercard
         /// <summary>
         ///     The game mode the user currently has selected.
         /// </summary>
-        private GameMode _gameMode;
-        public GameMode GameMode
+        private int _gameMode;
+        public int GameMode
         {
             get => _gameMode;
             set
@@ -179,14 +179,15 @@ namespace Quaver.Shared.Graphics.Online.Playercard
 
                 switch (GameMode)
                 {
-                    case GameMode.Keys4:
+                    case 4:
                         TextGlobalRank.Icon.Image = FontAwesome.Get(FontAwesomeIcon.fa_comments);
                         break;
-                    case GameMode.Keys7:
+                    case 7:
                         TextGlobalRank.Icon.Image = FontAwesome.Get(FontAwesomeIcon.fa_left_arrow);
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        // throw new ArgumentOutOfRangeException();
+                        break;
                 }
             }
         }
@@ -511,7 +512,7 @@ namespace Quaver.Shared.Graphics.Online.Playercard
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnSelectedGameModeChange(object sender, BindableValueChangedEventArgs<GameMode> e)
+        private void OnSelectedGameModeChange(object sender, BindableValueChangedEventArgs<int> e)
         {
             // Only update when it's self.
             if (TextUsername.Text != ConfigManager.Username.Value || !FullCard)
@@ -526,11 +527,11 @@ namespace Quaver.Shared.Graphics.Online.Playercard
         private void SetStats()
         {
             GameMode = ConfigManager.SelectedGameMode.Value;
-            OverallRating = (float) User.Stats[GameMode].OverallPerformanceRating;
-            OverallAccuracy = (float) User.Stats[GameMode].OverallAccuracy;
-            CountryRank = User.Stats[GameMode].CountryRank;
-            GlobalRank = User.Stats[GameMode].Rank;
-            PlayCount = User.Stats[GameMode].PlayCount;
+            // OverallRating = (float) User.Stats[GameMode].OverallPerformanceRating;
+            // OverallAccuracy = (float) User.Stats[GameMode].OverallAccuracy;
+            // CountryRank = User.Stats[GameMode].CountryRank;
+            // GlobalRank = User.Stats[GameMode].Rank;
+            // PlayCount = User.Stats[GameMode].PlayCount;
             CompetitiveMatchesWon = 0;
         }
 

@@ -62,7 +62,7 @@ namespace Quaver.Shared.Screens.Selection.UI.Profile
 
         /// <summary>
         /// </summary>
-        private GameMode ActiveMode => ConfigManager.SelectedGameMode?.Value ?? GameMode.Keys4;
+        private int ActiveMode => ConfigManager.SelectedGameMode?.Value ?? 4;
 
         /// <inheritdoc />
         /// <summary>
@@ -202,15 +202,15 @@ namespace Quaver.Shared.Screens.Selection.UI.Profile
 
             ModeButton.Clicked += (sender, args) =>
             {
-                GameMode mode;
+                int mode;
 
                 switch (ActiveMode)
                 {
-                    case GameMode.Keys4:
-                        mode = GameMode.Keys7;
+                    case 4:
+                        mode = 7;
                         break;
-                    case GameMode.Keys7:
-                        mode = GameMode.Keys4;
+                    case 7:
+                        mode = 4;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -277,16 +277,17 @@ namespace Quaver.Shared.Screens.Selection.UI.Profile
         /// </summary>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        private Texture2D GetModeImage(GameMode mode)
+        private Texture2D GetModeImage(int mode)
         {
             switch (mode)
             {
-                case GameMode.Keys4:
+                case 4:
                     return UserInterface.Mode4KOn;
-                case GameMode.Keys7:
+                case 7:
                     return UserInterface.Mode7KOn;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    // throw new ArgumentOutOfRangeException();
+                    return UserInterface.Mode4KOn;
             }
         }
     }

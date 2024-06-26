@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using Quaver.API.Helpers;
+using Quaver.API.Maps;
 using Quaver.Shared.Assets;
 using Quaver.Shared.Config;
 using Quaver.Shared.Helpers;
@@ -254,79 +255,12 @@ namespace Quaver.Shared.Screens.Options
                 }),
                 new OptionsSection("Input", UserInterface.OptionsInput, new List<OptionsSubcategory>
                 {
-                    new OptionsSubcategory("Gameplay", new List<OptionsItem>()
-                    {
-                        new OptionsItemKeybindMultiple(containerRect, "4K Gameplay Layout", new List<Bindable<GenericKey>>()
-                        {
-                            ConfigManager.KeyMania4K1,
-                            ConfigManager.KeyMania4K2,
-                            ConfigManager.KeyMania4K3,
-                            ConfigManager.KeyMania4K4
-                        })
+                    new OptionsSubcategory("Gameplay", Enumerable.Range(1, Qua.MAX_KEY_COUNT).Select(keymode =>
+                        (OptionsItem)new OptionsItemKeybindMultiple(containerRect, $"{keymode}K Gameplay Layout",
+                            Enumerable.Range(1, keymode).Select(i => ConfigManager.KeyManiaBinds[keymode][i - 1]).ToList())
                         {
                             Tags = new List<string> {"keybind", "keyboard", "keys"}
-                        },
-                        new OptionsItemKeybindMultiple(containerRect, "7K Gameplay Layout", new List<Bindable<GenericKey>>()
-                        {
-                            ConfigManager.KeyMania7K1,
-                            ConfigManager.KeyMania7K2,
-                            ConfigManager.KeyMania7K3,
-                            ConfigManager.KeyMania7K4,
-                            ConfigManager.KeyMania7K5,
-                            ConfigManager.KeyMania7K6,
-                            ConfigManager.KeyMania7K7,
-                        })
-                        {
-                            Tags = new List<string> {"keybind", "keyboard", "keys"}
-                        },
-                        new OptionsItemKeybindMultiple(containerRect, "7K + 1 Gameplay Layout", new List<Bindable<GenericKey>>()
-                        {
-                            ConfigManager.KeyLayout7KScratch1,
-                            ConfigManager.KeyLayout7KScratch2,
-                            ConfigManager.KeyLayout7KScratch3,
-                            ConfigManager.KeyLayout7KScratch4,
-                            ConfigManager.KeyLayout7KScratch5,
-                            ConfigManager.KeyLayout7KScratch6,
-                            ConfigManager.KeyLayout7KScratch7,
-                        })
-                        {
-                            Tags = new List<string> {"keybind", "keyboard", "keys"}
-                        },
-                        new OptionsItemKeybindMultiple(containerRect, "7K + 1 Scratch Lane Keys", new List<Bindable<GenericKey>>()
-                        {
-                            ConfigManager.KeyLayout7KScratch8,
-                            ConfigManager.KeyLayout7KScratch9,
-                        })
-                        {
-                            Tags = new List<string> {"keybind", "keyboard", "keys"}
-                        },
-                    }) ,
-                    new OptionsSubcategory("Co-op Gameplay", new List<OptionsItem>()
-                    {
-                        new OptionsItemKeybindMultiple(containerRect, "4K Co-op Player 2 Layout", new List<Bindable<GenericKey>>()
-                        {
-                            ConfigManager.KeyCoop2P4K1,
-                            ConfigManager.KeyCoop2P4K2,
-                            ConfigManager.KeyCoop2P4K3,
-                            ConfigManager.KeyCoop2P4K4
-                        })
-                        {
-                            Tags = new List<string> {"keybind", "keyboard", "keys"}
-                        },
-                        new OptionsItemKeybindMultiple(containerRect, "7K Co-op Player 2 Layout", new List<Bindable<GenericKey>>()
-                        {
-                            ConfigManager.KeyCoop2P7K1,
-                            ConfigManager.KeyCoop2P7K2,
-                            ConfigManager.KeyCoop2P7K3,
-                            ConfigManager.KeyCoop2P7K4,
-                            ConfigManager.KeyCoop2P7K5,
-                            ConfigManager.KeyCoop2P7K6,
-                            ConfigManager.KeyCoop2P7K7,
-                        })
-                        {
-                            Tags = new List<string> {"keybind", "keyboard", "keys"}
-                        }
-                    }),
+                        }).ToList()),
                     new OptionsSubcategory("Gameplay Controls", new List<OptionsItem>()
                     {
                         new OptionsItemKeybindGeneric(containerRect, "Pause", ConfigManager.KeyPause),

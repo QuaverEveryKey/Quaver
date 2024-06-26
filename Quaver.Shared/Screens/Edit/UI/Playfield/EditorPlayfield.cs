@@ -112,7 +112,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
         /// <summary>
         /// </summary>
         private Bindable<bool> ShowWaveform { get; }
-        
+
         /// <summary>
         /// </summary>
         private Bindable<bool> ShowSpectrogram { get; }
@@ -124,7 +124,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
         /// <summary>
         /// </summary>
         private Bindable<EditorPlayfieldWaveformFilter> WaveformFilter { get; }
-        
+
         /// <summary>
         /// </summary>
         private Bindable<int> SpectrogramFftSize { get; }
@@ -138,21 +138,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
         ///     The size of each column in the playfield
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public int ColumnSize
-        {
-            get
-            {
-                switch (Map.Mode)
-                {
-                    case GameMode.Keys4:
-                        return 74;
-                    case GameMode.Keys7:
-                        return 70;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-        }
+        public int ColumnSize => 70;
 
         /// <summary>
         /// </summary>
@@ -221,7 +207,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
         /// <summary>
         /// </summary>
         private TaskHandler<int, int> WaveformLoadTask { get; set; }
-        
+
         /// <summary>
         /// </summary>
         private TaskHandler<int, int> SpectrogramLoadTask { get; set; }
@@ -229,7 +215,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
         /// <summary>
         /// </summary>
         public EditorPlayfieldWaveform Waveform { get; set; }
-        
+
         /// <summary>
         /// </summary>
         public EditorPlayfieldSpectrogram Spectrogram { get; set; }
@@ -237,7 +223,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
         /// <summary>
         /// </summary>
         private LoadingWheelText LoadingWaveform { get; set; }
-        
+
         /// <summary>
         /// </summary>
         private LoadingWheelText LoadingSpectrogram { get; set; }
@@ -370,7 +356,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
 
             Alignment = Alignment.TopCenter;
             Tint = new Color(24,24,24);
-            Size = new ScalableVector2(ColumnSize * Map.GetKeyCount(), WindowManager.Height);
+            Size = new ScalableVector2(ColumnSize * Map.KeyCount, WindowManager.Height);
 
             CreateBorders();
             CreateDividerLines();
@@ -455,7 +441,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
                 LoadingWaveform.Position = new ScalableVector2(X + BorderLeft.Width / 2f, 200);
                 LoadingWaveform.Update(gameTime);
             }
-            
+
             if (LoadingSpectrogram != null)
             {
                 LoadingSpectrogram.Alignment = Alignment;
@@ -503,9 +489,9 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
                 Waveform?.Draw(gameTime);
 
             LineContainer.Draw(gameTime);
-            
+
             DrawHitObjects(gameTime);
-            
+
             GameBase.Game.SpriteBatch.End();
 
             // Draw the button on top of the hitobjects because it serves as a dimming
@@ -513,7 +499,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
 
             if (ShowWaveform.Value)
                 LoadingWaveform?.Draw(gameTime);
-            
+
             if (ShowSpectrogram.Value)
                 LoadingSpectrogram?.Draw(gameTime);
 
@@ -605,7 +591,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
         {
             DividerLines = new List<Sprite>();
 
-            for (var i = 0; i < Map.GetKeyCount() - 1; i++)
+            for (var i = 0; i < Map.KeyCount - 1; i++)
             {
                 DividerLines.Add(new Sprite
                 {
@@ -718,7 +704,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
             return 0;
         }
 
-        
+
         /// <summary>
         /// </summary>
         /// <param name="info"></param>
@@ -942,18 +928,18 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
         public int GetLaneFromX(float x, bool handleScratch = false)
         {
             var percentage = (x - AbsolutePosition.X) / AbsoluteSize.X;
-            var lane = Map.GetKeyCount() * percentage + 1;
+            var lane = Map.KeyCount * percentage + 1;
 
-            var val = (int) MathHelper.Clamp(lane, 1, Map.GetKeyCount());
+            var val = (int) MathHelper.Clamp(lane, 1, Map.KeyCount);
 
             // Place the scratch key on the left instead of right if the user has it enabled in gameplay.
-            if (handleScratch && Map.HasScratchKey && ConfigManager.ScratchLaneLeft7K != null && ConfigManager.ScratchLaneLeft7K.Value)
-            {
-                if (val == 1)
-                    val = 8;
-                else
-                    val--;
-            }
+            // if (handleScratch && Map.HasScratchKey && ConfigManager.ScratchLaneLeft7K != null && ConfigManager.ScratchLaneLeft7K.Value)
+            // {
+            //     if (val == 1)
+            //         val = 8;
+            //     else
+            //         val--;
+            // }
 
             return val;
         }
@@ -1579,7 +1565,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
                 }
 
                 if (laneOffset > PreviousLaneDragOffset)
-                    dragXAllowed = rightColumn + columnOffset <= Map.GetKeyCount();
+                    dragXAllowed = rightColumn + columnOffset <= Map.KeyCount;
                 else if (laneOffset < PreviousLaneDragOffset)
                     dragXAllowed = leftColumn + columnOffset >= 1;
             }
@@ -1607,7 +1593,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
                     continue;
 
                 var column = ho.Lane;
-                ho.Lane = MathHelper.Clamp(ho.Lane + (laneOffset - PreviousLaneDragOffset), 1, Map.GetKeyCount());
+                ho.Lane = MathHelper.Clamp(ho.Lane + (laneOffset - PreviousLaneDragOffset), 1, Map.KeyCount);
 
                 // Only update the column offset on the first iteration
                 if (i == 0)
@@ -1673,10 +1659,10 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
 
         private void OnSpectrogramIntensityFactorChanged(object sender, BindableValueChangedEventArgs<float> e)
             => ReloadSpectrogram();
-        
+
         private void OnSpectrogramFrequencyScaleChanged(object sender, BindableValueChangedEventArgs<EditorPlayfieldSpectrogramFrequencyScale> e)
             => ReloadSpectrogram();
-        
+
         private void OnSpectrogramInterleaveCountChanged(object sender, BindableValueChangedEventArgs<int> e)
             => ReloadSpectrogram();
 

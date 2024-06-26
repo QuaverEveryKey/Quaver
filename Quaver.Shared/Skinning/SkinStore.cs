@@ -15,6 +15,7 @@ using IniFileParser.Model;
 using Microsoft.Xna.Framework.Graphics;
 using MoreLinq.Extensions;
 using Quaver.API.Enums;
+using Quaver.API.Maps;
 using Quaver.Shared.Assets;
 using Quaver.Shared.Config;
 using Quaver.Shared.Skinning.Menus;
@@ -58,7 +59,7 @@ namespace Quaver.Shared.Skinning
         /// <summary>
         ///     Dictionary that contains both skins for 4K & 7K
         /// </summary>
-        internal Dictionary<GameMode, SkinKeys> Keys { get; }
+        internal Dictionary<int, SkinKeys> Keys { get; }
 
         /// <summary>
         ///     Skinning for the menu borders
@@ -279,11 +280,13 @@ namespace Quaver.Shared.Skinning
             LoadConfig();
 
             // Load up Keys game mode skins.
-            Keys = new Dictionary<GameMode, SkinKeys>
-            {
-                {GameMode.Keys4, new SkinKeys(this, GameMode.Keys4)},
-                {GameMode.Keys7, new SkinKeys(this, GameMode.Keys7)}
-            };
+            Keys = new Dictionary<int, SkinKeys>();
+            for (var i = 0; i < Qua.MAX_KEY_COUNT; i++)
+                Keys[i] = new SkinKeys(this, i);
+            // {
+            //     {GameMode.Keys4, new SkinKeys(this, GameMode.Keys4)},
+            //     {GameMode.Keys7, new SkinKeys(this, GameMode.Keys7)}
+            // };
 
 
             try

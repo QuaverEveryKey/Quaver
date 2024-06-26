@@ -27,7 +27,7 @@ using Wobble.Graphics.Sprites.Text;
 using Wobble.Graphics.UI.Buttons;
 using Wobble.Graphics.UI.Dialogs;
 using Wobble.Managers;
-using GameMode = Quaver.API.Enums.GameMode;
+// using GameMode = Quaver.API.Enums.GameMode;
 
 namespace Quaver.Shared.Screens.MultiplayerLobby.UI.Games
 {
@@ -548,14 +548,15 @@ namespace Quaver.Shared.Screens.MultiplayerLobby.UI.Games
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static Texture2D GetModeIcon(MultiplayerGame game)
         {
-            switch ((GameMode) game.GameMode)
+            switch (game.GameMode)
             {
-                case GameMode.Keys4:
+                case 4:
                     return UserInterface.Mode4KSmall;
-                case GameMode.Keys7:
+                case 7:
                     return UserInterface.Mode7KSmall;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    // throw new ArgumentOutOfRangeException();
+                    return UserInterface.Mode4K7KSmall;
             }
         }
 

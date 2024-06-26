@@ -205,7 +205,7 @@ namespace Quaver.Shared.Screens.Selection.UI.Preview
                 map.Qua = qua;
                 map.Qua.ApplyMods(ModManager.Mods);
 
-                var autoplay = Replay.GeneratePerfectReplayKeys(new Replay(qua.Mode, "Autoplay", 0, map.Md5Checksum), qua);
+                var autoplay = Replay.GeneratePerfectReplayKeys(new Replay(qua.KeyCount, "Autoplay", 0, map.Md5Checksum), qua);
 
                 var gameplay = new GameplayScreen(qua, map.Md5Checksum, new List<Score>(), autoplay, true, 0,
                     false, null, null, true);
@@ -260,11 +260,11 @@ namespace Quaver.Shared.Screens.Selection.UI.Preview
                     x.StopHolding();
                 });
 
-                var scroll = LoadedGameplayScreen.Map.Mode == GameMode.Keys4
+                var scroll = LoadedGameplayScreen.Map.KeyCount % 2 == 0
                     ? ConfigManager.ScrollDirection4K
                     : ConfigManager.ScrollDirection7K;
 
-                var skin = SkinManager.Skin.Keys[e.Result.Map.Mode];
+                var skin = SkinManager.Skin.Keys[e.Result.Map.KeyCount];
 
                 const int filterPanelHeight = 88;
 
@@ -359,7 +359,7 @@ namespace Quaver.Shared.Screens.Selection.UI.Preview
 
                     Track = AudioEngine.Track;
                     TrackInPreviousFrame = Track;
-                    
+
                     LoadedGameplayScreen?.HandleReplaySeeking();
                 }
 
@@ -520,8 +520,8 @@ namespace Quaver.Shared.Screens.Selection.UI.Preview
                     playfield.Container.X -= SeekBar.X;
                     playfield.Container.X -= SeekBar.Width / 3f;
 
-                    if (qua.HasScratchKey)
-                        SeekBar.X += SkinManager.Skin.Keys[qua.Mode].ScratchLaneSize / 4f;
+                    // if (qua.HasScratchKey)
+                    //     SeekBar.X += SkinManager.Skin.Keys[qua.Mode].ScratchLaneSize / 4f;
 
                     playfield.Container.X += 2;
                 }

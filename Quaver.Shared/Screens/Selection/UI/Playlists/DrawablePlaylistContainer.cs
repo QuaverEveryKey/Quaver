@@ -408,12 +408,12 @@ namespace Quaver.Shared.Screens.Selection.UI.Playlists
 
             foreach (var map in Playlist.Item.Maps)
             {
-                switch (map.Mode)
+                switch (map.KeyCount)
                 {
-                    case GameMode.Keys4:
+                    case 4:
                         has4k = true;
                         break;
-                    case GameMode.Keys7:
+                    case 7:
                         has7K = true;
                         break;
                 }

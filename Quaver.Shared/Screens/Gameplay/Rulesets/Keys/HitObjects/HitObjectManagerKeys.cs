@@ -49,7 +49,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
                 var speed = ConfigManager.ScrollSpeed4K;
 
                 if (MapManager.Selected.Value.Qua != null)
-                    speed = MapManager.Selected.Value.Qua.Mode == GameMode.Keys4 ? ConfigManager.ScrollSpeed4K : ConfigManager.ScrollSpeed7K;
+                    speed = MapManager.Selected.Value.Qua.KeyCount % 2 == 0 ? ConfigManager.ScrollSpeed4K : ConfigManager.ScrollSpeed7K;
 
                 var scalingFactor = QuaverGame.SkinScalingFactor;
 
@@ -319,7 +319,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
             Ruleset = ruleset;
             Map = map.WithNormalizedSVs();
             Length = Map.Length;
-            KeyCount = Map.GetKeyCount(Map.HasScratchKey);
+            KeyCount = Map.KeyCount;
 
             // Initialize SV
             InitializePositionMarkers();

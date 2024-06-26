@@ -96,11 +96,11 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Input
             }
 
             // Populate unique key presses/releases.
-            KeyCount = screen.Map.GetKeyCount();
+            KeyCount = screen.Map.KeyCount;
 
             // Allows two bindings to the scratch key (K9)
-            if (screen.Map.HasScratchKey)
-                KeyCount++;
+            // if (screen.Map.HasScratchKey)
+            //     KeyCount++;
 
             for (var i = 0; i < KeyCount; i++)
             {

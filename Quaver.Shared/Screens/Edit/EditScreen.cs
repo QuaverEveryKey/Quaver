@@ -784,7 +784,7 @@ namespace Quaver.Shared.Screens.Edit
             var swapLane1 = -1;
             var swapLane2 = -1;
             // Clever way of handing key input with num keys since the enum values are 1 after each other.
-            for (var i = 0; i < WorkingMap.GetKeyCount(); i++)
+            for (var i = 0; i < WorkingMap.KeyCount; i++)
             {
                 if (KeyboardManager.IsUniqueKeyPress(Keys.D1 + i))
                     swapLane2 = i;
@@ -885,7 +885,7 @@ namespace Quaver.Shared.Screens.Edit
                 return;
             if (KeyboardManager.IsAltDown()) return; // Swapping lanes, not placing objects
             // Clever way of handing key input with num keys since the enum values are 1 after each other.
-            for (var i = 0; i < WorkingMap.GetKeyCount(); i++)
+            for (var i = 0; i < WorkingMap.KeyCount; i++)
             {
                 if (!KeyboardManager.IsUniqueKeyPress(Keys.D1 + i))
                     continue;
@@ -1564,7 +1564,7 @@ namespace Quaver.Shared.Screens.Edit
                     DifficultyName = "",
                     Description = $"Created at {TimeHelper.GetUnixTimestampMilliseconds()}",
                     BackgroundFile = "",
-                    Mode = GameMode.Keys4,
+                    KeyCount = 4,
                     BPMDoesNotAffectScrollVelocity = true,
                     InitialScrollVelocity = 1
                 };
@@ -1789,7 +1789,7 @@ namespace Quaver.Shared.Screens.Edit
         /// </summary>
         /// <returns></returns>
         public override UserClientStatus GetClientStatus() => new UserClientStatus(ClientStatus.Editing, Map.MapId, "",
-            (byte)WorkingMap.Mode, $"{Map.Artist} - {Map.Title} [{Map.DifficultyName}]", 0);
+            (byte)WorkingMap.KeyCount, $"{Map.Artist} - {Map.Title} [{Map.DifficultyName}]", 0);
 
         /// <summary>
         ///     Returns if the user is able to seek through the track
@@ -1811,8 +1811,8 @@ namespace Quaver.Shared.Screens.Edit
                 DiscordHelper.Presence.StartTimestamp = (long)(TimeHelper.GetUnixTimestampMilliseconds() / 1000);
                 DiscordHelper.Presence.EndTimestamp = 0;
                 DiscordHelper.Presence.LargeImageText = OnlineManager.GetRichPresenceLargeKeyText(ConfigManager.SelectedGameMode.Value);
-                DiscordHelper.Presence.SmallImageKey = ModeHelper.ToShortHand(WorkingMap.Mode).ToLower();
-                DiscordHelper.Presence.SmallImageText = ModeHelper.ToLongHand(WorkingMap.Mode);
+                DiscordHelper.Presence.SmallImageKey = ModeHelper.ToShortHand(WorkingMap.KeyCount).ToLower();
+                DiscordHelper.Presence.SmallImageText = ModeHelper.ToLongHand(WorkingMap.KeyCount);
 
                 RichPresenceHelper.UpdateRichPresence("Editing", WorkingMap.ToString());
             }

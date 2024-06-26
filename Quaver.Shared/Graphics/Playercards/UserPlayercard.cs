@@ -72,7 +72,7 @@ namespace Quaver.Shared.Graphics.Playercards
 
         /// <summary>
         /// </summary>
-        private GameMode ActiveMode { get; set; } = GameMode.Keys4;
+        private int ActiveMode { get; set; } = 4;
 
         /// <summary>
         /// </summary>
@@ -211,14 +211,16 @@ namespace Quaver.Shared.Graphics.Playercards
             {
                 switch (ActiveMode)
                 {
-                    case GameMode.Keys4:
-                        ActiveMode = GameMode.Keys7;
+                    case 4:
+                        ActiveMode = 7;
                         break;
-                    case GameMode.Keys7:
-                        ActiveMode = GameMode.Keys4;
+                    case 7:
+                        ActiveMode = 4;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        // throw new ArgumentOutOfRangeException();
+                        ActiveMode = 4;
+                        break;
                 }
 
                 if (ConfigManager.SelectedGameMode != null && User == OnlineManager.Self)
@@ -354,12 +356,12 @@ namespace Quaver.Shared.Graphics.Playercards
             Status.Text = GetStatusText();
             ModeButton.Image = GetModeImage();
 
-            if (User != null && User.Stats.ContainsKey(ActiveMode))
-            {
-                GlobalRanking.Value.Text = $"#{User.Stats[ActiveMode].Rank:n0}";
-                OverallRating.Value.Text = StringHelper.RatingToString(User.Stats[ActiveMode].OverallPerformanceRating);
-                OverallAccuracy.Value.Text = StringHelper.AccuracyToString((float) User.Stats[ActiveMode].OverallAccuracy);
-            }
+            // if (User != null && User.Stats.ContainsKey(ActiveMode))
+            // {
+            //     GlobalRanking.Value.Text = $"#{User.Stats[ActiveMode].Rank:n0}";
+            //     OverallRating.Value.Text = StringHelper.RatingToString(User.Stats[ActiveMode].OverallPerformanceRating);
+            //     OverallAccuracy.Value.Text = StringHelper.AccuracyToString((float) User.Stats[ActiveMode].OverallAccuracy);
+            // }
         });
 
         /// <summary>
@@ -370,12 +372,13 @@ namespace Quaver.Shared.Graphics.Playercards
         {
             switch (ActiveMode)
             {
-                case GameMode.Keys4:
+                case 4:
                     return UserInterface.Mode4KOn;
-                case GameMode.Keys7:
+                case 7:
                     return UserInterface.Mode7KOn;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    // throw new ArgumentOutOfRangeException();
+                    return UserInterface.Mode4KOn;
             }
         }
 

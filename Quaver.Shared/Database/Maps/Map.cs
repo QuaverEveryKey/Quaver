@@ -149,7 +149,7 @@ namespace Quaver.Shared.Database.Maps
         /// <summary>
         ///     The Game Mode of the map
         /// </summary>
-        public GameMode Mode { get; set; }
+        public int KeyCount { get; set; }
 
         /// <summary>
         ///     The local offset for this map
@@ -206,7 +206,7 @@ namespace Quaver.Shared.Database.Maps
         /// <summary>
         ///     If the Qua file is using the scratch key (4K+1, 7K+1)
         /// </summary>
-        public bool HasScratchKey { get; set; }
+        // public bool HasScratchKey { get; set; }
 
         /// <summary>
         ///     Retroactively fixed offset for ranked maps.
@@ -332,10 +332,10 @@ namespace Quaver.Shared.Database.Maps
                 Tags = qua.Tags,
                 Genre = qua.Genre,
                 SongLength =  qua.Length,
-                Mode = qua.Mode,
+                KeyCount = qua.KeyCount,
                 RegularNoteCount = qua.HitObjects.Count(x => !x.IsLongNote),
                 LongNoteCount = qua.HitObjects.Count(x => x.IsLongNote),
-                HasScratchKey = qua.HasScratchKey
+                // HasScratchKey = qua.HasScratchKey
             };
 
             if (!skipPathSetting)

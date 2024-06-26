@@ -12,15 +12,15 @@ namespace Quaver.Shared.Screens.Edit.Dialogs.Metadata
 {
     public class EditorMetadataModeDropdown : LabelledDropdown
     {
-        public GameMode SelectedMode
+        public int SelectedMode
         {
             get
             {
-                var mode = (GameMode) (Dropdown.SelectedIndex + 1);
+                var mode = (Dropdown.SelectedIndex + 1);
 
-                if ((int) mode == 3)
-                    mode = GameMode.Keys7;
-                
+                // if ((int) mode == 3)
+                //     mode = GameMode.Keys7;
+
                 return mode;
             }
         }
@@ -34,29 +34,29 @@ namespace Quaver.Shared.Screens.Edit.Dialogs.Metadata
             new ScalableVector2(140, 38), 22, ColorHelper.HexToColor($"#ffe76b"), GetSelectedIndex(map)))
         {
         }
-        
+
         private static List<string> GetDropdownItems()
         {
             var values = new List<string>();
 
-            foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
+            for (var mode = 0; mode < Qua.MAX_KEY_COUNT; mode++)
                 values.Add(ModeHelper.ToLongHand(mode));
 
-            values.Add("7+1 Keys");
-            
+            // values.Add("7+1 Keys");
+
             return values;
         }
-        
+
         /// <summary>
         /// </summary>
         /// <param name="map"></param>
         /// <returns></returns>
         private static int GetSelectedIndex(Qua map)
         {
-            var index = (int) map.Mode - 1;
+            var index = (int) map.KeyCount - 1;
 
-            if (map.HasScratchKey)
-                index = Keys7Plus1Index;
+            // if (map.HasScratchKey)
+            //     index = Keys7Plus1Index;
 
             return index;
         }

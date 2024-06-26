@@ -427,7 +427,7 @@ namespace Quaver.Shared.Online
             // Make sure the config username is changed.
             ConfigManager.Username.Value = Self.OnlineUser.Username;
 
-            DiscordHelper.Presence.LargeImageText = GetRichPresenceLargeKeyText(GameMode.Keys4);
+            DiscordHelper.Presence.LargeImageText = GetRichPresenceLargeKeyText(4);
             DiscordHelper.Presence.EndTimestamp = 0;
             DiscordHelper.Presence.PartyMax = 0;
             DiscordHelper.Presence.PartySize = 0;
@@ -592,7 +592,7 @@ namespace Quaver.Shared.Online
             if (e.Response.Status != 200)
                 return;
 
-            Self.Stats[e.Response.GameMode] = e.Response.Stats.ToUserStats(e.Response.GameMode);
+            // Self.Stats[e.Response.GameMode] = e.Response.Stats.ToUserStats(e.Response.GameMode);
 
             // Unlock any achievements
             if (e.Response.Achievements != null && e.Response.Achievements.Count > 0)
@@ -600,7 +600,7 @@ namespace Quaver.Shared.Online
 
             try
             {
-                DiscordHelper.Presence.LargeImageText = GetRichPresenceLargeKeyText(e.Response.GameMode);
+                DiscordHelper.Presence.LargeImageText = GetRichPresenceLargeKeyText(0);
                 DiscordHelper.Presence.EndTimestamp = 0;
                 DiscordRpc.UpdatePresence(ref DiscordHelper.Presence);
             }
@@ -615,7 +615,7 @@ namespace Quaver.Shared.Online
         /// </summary>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public static string GetRichPresenceLargeKeyText(GameMode mode)
+        public static string GetRichPresenceLargeKeyText(int mode)
         {
             DiscordHelper.Presence.LargeImageText = ConfigManager.Username.Value;
 
@@ -623,13 +623,13 @@ namespace Quaver.Shared.Online
             if (!Connected)
                 return DiscordHelper.Presence.LargeImageText;
 
-            if (Self.Stats.ContainsKey(mode))
-            {
-                var stats = Self.Stats[mode];
+            // if (Self.Stats.ContainsKey(mode))
+            // {
+            //     var stats = Self.Stats[mode];
 
-                if (stats.Rank != -1 && stats.CountryRank != -1)
-                    DiscordHelper.Presence.LargeImageText += $" - Global: #{stats.Rank} | {Self.OnlineUser.CountryFlag}: #{stats.CountryRank}";
-            }
+            //     if (stats.Rank != -1 && stats.CountryRank != -1)
+            //         DiscordHelper.Presence.LargeImageText += $" - Global: #{stats.Rank} | {Self.OnlineUser.CountryFlag}: #{stats.CountryRank}";
+            // }
 
             return DiscordHelper.Presence.LargeImageText;
         }
@@ -753,7 +753,7 @@ namespace Quaver.Shared.Online
             {
                 if (CurrentGame is not null)
                     Logger.Important($"Successfully joined game: {CurrentGame.Id} | {CurrentGame.Name} | {CurrentGame.HasPassword}", LogType.Network);
-                
+
                 return new MultiplayerGameScreen();
             });
         }
@@ -1158,11 +1158,11 @@ namespace Quaver.Shared.Online
         /// <param name="e"></param>
         private static void OnUserStats(object sender, UserStatsEventArgs e)
         {
-            foreach (var user in e.Stats)
-            {
-                foreach (var stats in user.Value)
-                    OnlineUsers[user.Key].Stats[(GameMode) stats.Key] = stats.Value;
-            }
+            // foreach (var user in e.Stats)
+            // {
+            //     foreach (var stats in user.Value)
+            //         OnlineUsers[user.Key].Stats[(GameMode) stats.Key] = stats.Value;
+            // }
         }
 
         /// <summary>
@@ -1960,7 +1960,7 @@ namespace Quaver.Shared.Online
         /// <returns></returns>
         private static List<Score> GetScoresFromMultiplayerUsers()
         {
-            
+
             var playingUsers = CurrentGame.Players.FindAll(x =>
                 x.Id != CurrentGame.RefereeUserId &&
                 !CurrentGame.PlayersWithoutMap.Contains(x.Id) &&

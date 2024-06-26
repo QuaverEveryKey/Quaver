@@ -178,8 +178,8 @@ namespace Quaver.Shared.Screens.Multi.UI.Players
                 Flag.Image = Flags.Get("XX");
             }
 
-            if (User.Stats.ContainsKey((GameMode) Game.Value.GameMode))
-                Username.Text += $" (#{User.Stats[(GameMode) Game.Value.GameMode].Rank})";
+            // if (User.Stats.ContainsKey((GameMode) Game.Value.GameMode))
+            //     Username.Text += $" (#{User.Stats[(GameMode) Game.Value.GameMode].Rank})";
 
             // Update host crown visibility
             HostCrown.Visible = Game.Value.HostId == User.OnlineUser.Id;

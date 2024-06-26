@@ -217,8 +217,8 @@ namespace Quaver.Shared.Screens.Multiplayer.UI.List
             }
 
             // Request user stats if necessary
-            if (OnlineManager.OnlineUsers[item.Id].Stats.Count == 0)
-                OnlineManager.Client.RequestUserStats(new List<int> { item.Id});
+            // if (OnlineManager.OnlineUsers[item.Id].Stats.Count == 0)
+            //     OnlineManager.Client.RequestUserStats(new List<int> { item.Id});
         }
 
         private void OnGameSetReferee(object sender, GameSetRefereeEventArgs e)
@@ -268,8 +268,8 @@ namespace Quaver.Shared.Screens.Multiplayer.UI.List
 
             if (OnlineManager.OnlineUsers[item.Id].HasUserInfo)
             {
-                var stats = OnlineManager.OnlineUsers[Item.Id].Stats;
-                var rank = stats.ContainsKey((GameMode) OnlineManager.CurrentGame.GameMode) ? $" (#{stats[(GameMode) OnlineManager.CurrentGame.GameMode].Rank})" : "";
+                // var stats = OnlineManager.OnlineUsers[Item.Id].Stats;
+                var rank = "";
 
                 Username.Text = item.Username + rank;
                 HostCrown.X = Username.Width + 12;

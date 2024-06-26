@@ -176,21 +176,28 @@ namespace Quaver.Shared.Screens.Gameplay.UI.Scoreboard
                     throw new ArgumentOutOfRangeException();
             }
 
-            switch (Screen.Map.Mode)
+            // switch (Screen.Map.Mode)
+            // {
+            //     case GameMode.Keys4:
+            //     case GameMode.Keys7:
+            //         if (screen.IsMultiplayerGame && Type == ScoreboardUserType.Other)
+            //         {
+            //             var mp = new ScoreProcessorMultiplayer((MultiplayerHealthType) OnlineManager.CurrentGame.HealthType, OnlineManager.CurrentGame.Lives);
+            //             Processor = new ScoreProcessorKeys(Screen.Map, mods, mp);
+            //         }
+            //         else
+            //             Processor = Type == ScoreboardUserType.Other ? new ScoreProcessorKeys(Screen.Map, mods): Screen.Ruleset.ScoreProcessor;
+            //         break;
+            //     default:
+            //         throw new InvalidEnumArgumentException();
+            // }
+            if (screen.IsMultiplayerGame && Type == ScoreboardUserType.Other)
             {
-                case GameMode.Keys4:
-                case GameMode.Keys7:
-                    if (screen.IsMultiplayerGame && Type == ScoreboardUserType.Other)
-                    {
-                        var mp = new ScoreProcessorMultiplayer((MultiplayerHealthType) OnlineManager.CurrentGame.HealthType, OnlineManager.CurrentGame.Lives);
-                        Processor = new ScoreProcessorKeys(Screen.Map, mods, mp);
-                    }
-                    else
-                        Processor = Type == ScoreboardUserType.Other ? new ScoreProcessorKeys(Screen.Map, mods): Screen.Ruleset.ScoreProcessor;
-                    break;
-                default:
-                    throw new InvalidEnumArgumentException();
+                var mp = new ScoreProcessorMultiplayer((MultiplayerHealthType) OnlineManager.CurrentGame.HealthType, OnlineManager.CurrentGame.Lives);
+                Processor = new ScoreProcessorKeys(Screen.Map, mods, mp);
             }
+            else
+                Processor = Type == ScoreboardUserType.Other ? new ScoreProcessorKeys(Screen.Map, mods): Screen.Ruleset.ScoreProcessor;
 
             // Create avatar
             Avatar = new Sprite()

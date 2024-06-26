@@ -24,7 +24,7 @@ namespace Quaver.Shared.Screens.Edit.Plugins
         /// <summary>
         ///     The game mode of the map
         /// </summary>
-        public GameMode Mode { get; [MoonSharpVisible(false)] set; }
+        public int KeyCount { get; [MoonSharpVisible(false)] set; }
 
         /// <summary>
         ///     If the scroll velocities are in normalized format (BPM does not affect scroll velocity).
@@ -50,7 +50,7 @@ namespace Quaver.Shared.Screens.Edit.Plugins
         ///     The non-default editor layers that are currently in the map
         /// </summary>
         public List<EditorLayerInfo> EditorLayers { get; [MoonSharpVisible(false)] set; }
-        
+
         /// <summary>
         ///     The bookmarks that are currently in the map
         /// </summary>
@@ -69,7 +69,7 @@ namespace Quaver.Shared.Screens.Edit.Plugins
         [MoonSharpVisible(false)]
         public void SetFrameState()
         {
-            Mode = Map.Mode;
+            KeyCount = Map.KeyCount;
             TimingPoints = Map.TimingPoints;
             ScrollVelocities = Map.SliderVelocities; // Original name was SliderVelocities but that name doesn't really make sense
             HitObjects = Map.HitObjects;
@@ -86,7 +86,7 @@ namespace Quaver.Shared.Screens.Edit.Plugins
         ///    This translates mode to key count.
         /// </summary>
         /// <returns></returns>
-        public int GetKeyCount(bool includeScratch = true) => Map.GetKeyCount(includeScratch);
+        // public int GetKeyCount(bool includeScratch = true) => Map.GetKeyCount(includeScratch);
 
         /// <summary>
         ///     Finds the most common BPM in the current map

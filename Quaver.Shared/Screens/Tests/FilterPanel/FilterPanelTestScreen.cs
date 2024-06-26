@@ -58,7 +58,7 @@ namespace Quaver.Shared.Screens.Tests.FilterPanel
                                 Title = $"Title: #{i}",
                                 DifficultyName = "Insane",
                                 Difficulty10X = 24,
-                                Mode = GameMode.Keys4
+                                KeyCount = 4
                             }
                         }
                     });

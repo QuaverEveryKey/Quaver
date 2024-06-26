@@ -44,12 +44,12 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Input
         ///     Ctor -
         /// </summary>
         /// <param name="ruleset"></param>
-        /// <param name="mode"></param>
-        internal KeysInputManager(GameplayRulesetKeys ruleset, GameMode mode)
+        /// <param name="keyCount"></param>
+        internal KeysInputManager(GameplayRulesetKeys ruleset, int keyCount)
         {
             Ruleset = ruleset;
 
-            SetInputKeybinds(mode);
+            SetInputKeybinds(keyCount);
 
             // Init replay
             if (Ruleset.Screen != null && Ruleset.Screen.InReplayMode)
@@ -85,8 +85,8 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Input
                 var inputLane = lane;
 
                 // Allow multiple keybinds for scratch lane
-                if (Ruleset.Map.HasScratchKey && Ruleset.Map.Mode == GameMode.Keys7 && lane == BindingStore.Count - 1)
-                    inputLane--;
+                // if (Ruleset.Map.HasScratchKey && Ruleset.Map.Mode == GameMode.Keys7 && lane == BindingStore.Count - 1)
+                //     inputLane--;
 
                 // A key was uniquely pressed.
                 if (!BindingStore[lane].Pressed && (GenericKeyManager.IsUniquePress(BindingStore[lane].Key.Value) &&
@@ -373,12 +373,12 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Input
             var speedIncrease = KeyboardManager.IsCtrlDown() ? 1 : 10;
             BindableInt scrollSpeed;
 
-            switch (Ruleset.Screen.Map.Mode)
+            switch (Ruleset.Screen.Map.KeyCount % 2 == 0)
             {
-                case GameMode.Keys4:
+                case true: // even keyCounts
                     scrollSpeed = ConfigManager.ScrollSpeed4K;
                     break;
-                case GameMode.Keys7:
+                case false: // odd keyCounts
                     scrollSpeed = ConfigManager.ScrollSpeed7K;
                     break;
                 default:
@@ -397,115 +397,38 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Input
         /// <summary>
         ///     Sets input keybinds based on which player is playing
         /// </summary>
-        /// <param name="mode"></param>
-        private void SetInputKeybinds(GameMode mode)
+        /// <param name="keyCount"></param>
+        private void SetInputKeybinds(int keyCount)
         {
             if (Ruleset.Screen.TournamentOptions == null || Ruleset.Screen.TournamentOptions?.Index == 0)
-                SetPlayer1Keybinds(mode);
+                SetPlayer1Keybinds(keyCount);
             else if (Ruleset.Screen.TournamentOptions != null)
-                SetPlayer2Keybinds(mode);
+                SetPlayer2Keybinds(keyCount);
         }
 
         /// <summary>
         ///     Sets the keybinds for player 1
         /// </summary>
-        /// <param name="mode"></param>
+        /// <param name="keyCount"></param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        private void SetPlayer1Keybinds(GameMode mode)
+        private void SetPlayer1Keybinds(int keyCount)
         {
-            switch (mode)
-            {
-                case GameMode.Keys4:
-                    // Initialize 4K Input button container.
-                    if (!Ruleset.Screen.Map.HasScratchKey)
-                    {
-                        BindingStore = new List<InputBindingKeys>
-                        {
-                            new InputBindingKeys(ConfigManager.KeyMania4K1),
-                            new InputBindingKeys(ConfigManager.KeyMania4K2),
-                            new InputBindingKeys(ConfigManager.KeyMania4K3),
-                            new InputBindingKeys(ConfigManager.KeyMania4K4)
-                        };
-                    }
-                    else
-                    {
-                        BindingStore = new List<InputBindingKeys>
-                        {
-                            new InputBindingKeys(ConfigManager.KeyLayout4KScratch1),
-                            new InputBindingKeys(ConfigManager.KeyLayout4KScratch2),
-                            new InputBindingKeys(ConfigManager.KeyLayout4KScratch3),
-                            new InputBindingKeys(ConfigManager.KeyLayout4KScratch4),
-                            new InputBindingKeys(ConfigManager.KeyLayout4KScratch5),
-                        };
-                    }
-                    break;
-                case GameMode.Keys7:
-                    if (!Ruleset.Screen.Map.HasScratchKey)
-                    {
-                        BindingStore = new List<InputBindingKeys>
-                        {
-                            new InputBindingKeys(ConfigManager.KeyMania7K1),
-                            new InputBindingKeys(ConfigManager.KeyMania7K2),
-                            new InputBindingKeys(ConfigManager.KeyMania7K3),
-                            new InputBindingKeys(ConfigManager.KeyMania7K4),
-                            new InputBindingKeys(ConfigManager.KeyMania7K5),
-                            new InputBindingKeys(ConfigManager.KeyMania7K6),
-                            new InputBindingKeys(ConfigManager.KeyMania7K7)
-                        };
-                    }
-                    else
-                    {
-                        BindingStore = new List<InputBindingKeys>()
-                        {
-                            new InputBindingKeys(ConfigManager.KeyLayout7KScratch1),
-                            new InputBindingKeys(ConfigManager.KeyLayout7KScratch2),
-                            new InputBindingKeys(ConfigManager.KeyLayout7KScratch3),
-                            new InputBindingKeys(ConfigManager.KeyLayout7KScratch4),
-                            new InputBindingKeys(ConfigManager.KeyLayout7KScratch5),
-                            new InputBindingKeys(ConfigManager.KeyLayout7KScratch6),
-                            new InputBindingKeys(ConfigManager.KeyLayout7KScratch7),
-                            new InputBindingKeys(ConfigManager.KeyLayout7KScratch8),
-                            new InputBindingKeys(ConfigManager.KeyLayout7KScratch9)
-                        };
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-            }
+            var keybinds = ConfigManager.KeyManiaBinds[keyCount];
+            BindingStore = new List<InputBindingKeys>();
+            foreach (var keybind in keybinds)
+                BindingStore.Add(new InputBindingKeys(keybind));
         }
 
         /// <summary>
         ///     Sets the keybinds for player 1
         /// </summary>
-        /// <param name="mode"></param>
-        private void SetPlayer2Keybinds(GameMode mode)
+        /// <param name="keyCount"></param>
+        private void SetPlayer2Keybinds(int keyCount)
         {
-            switch (mode)
-            {
-                case GameMode.Keys4:
-                    BindingStore = new List<InputBindingKeys>()
-                    {
-                        new InputBindingKeys(ConfigManager.KeyCoop2P4K1),
-                        new InputBindingKeys(ConfigManager.KeyCoop2P4K2),
-                        new InputBindingKeys(ConfigManager.KeyCoop2P4K3),
-                        new InputBindingKeys(ConfigManager.KeyCoop2P4K4),
-                    };
-                    break;
-                case GameMode.Keys7:
-                    BindingStore = new List<InputBindingKeys>()
-                    {
-                        new InputBindingKeys(ConfigManager.KeyCoop2P7K1),
-                        new InputBindingKeys(ConfigManager.KeyCoop2P7K2),
-                        new InputBindingKeys(ConfigManager.KeyCoop2P7K3),
-                        new InputBindingKeys(ConfigManager.KeyCoop2P7K4),
-                        new InputBindingKeys(ConfigManager.KeyCoop2P7K5),
-                        new InputBindingKeys(ConfigManager.KeyCoop2P7K6),
-                        new InputBindingKeys(ConfigManager.KeyCoop2P7K7),
-                    };
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-            }
+            var keybinds = ConfigManager.KeyManiaBinds[keyCount];
+            BindingStore = new List<InputBindingKeys>();
+            foreach (var keybind in keybinds)
+                BindingStore.Add(new InputBindingKeys(keybind));
         }
     }
 }

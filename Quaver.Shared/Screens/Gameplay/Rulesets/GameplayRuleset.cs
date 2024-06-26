@@ -40,7 +40,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets
         /// <summary>
         ///     The game mode of the map being played.
         /// </summary>
-        public GameMode Mode => Map.Mode;
+        public int KeyCount => Map.KeyCount;
 
         /// <summary>
         ///     The playfield for this ruleset.
@@ -83,7 +83,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets
             CreatePlayfield();
             HitObjectManager = CreateHitObjectManager();
 
-            StandardizedReplayPlayer = new VirtualReplayPlayer(new Replay(Map.Mode,
+            StandardizedReplayPlayer = new VirtualReplayPlayer(new Replay(Map.KeyCount,
                 ConfigManager.Username.Value, ModManager.Mods, Screen.MapHash), map, null, true);
 
             // If in replay mode, pass all the existing replay frames to the standardized player.

@@ -50,11 +50,11 @@ namespace Quaver.Shared.Screens.Gameplay.UI.Counter
             JudgementDisplays = new Dictionary<Judgement, JudgementCounterItem>();
             JudgementDisplaysBackground = new Dictionary<Judgement, Sprite>();
 
-            var skin = SkinManager.Skin.Keys[Screen.Map.Mode];
+            var skin = SkinManager.Skin.Keys[Screen.Map.KeyCount];
             for (var i = 0; i < Screen.Ruleset.ScoreProcessor.CurrentJudgements.Count; i++)
             {
                 var key = (Judgement)i;
-                var color = SkinManager.Skin.Keys[Screen.Map.Mode].JudgeColors[key];
+                var color = SkinManager.Skin.Keys[Screen.Map.KeyCount].JudgeColors[key];
 
                 if (SkinManager.Skin.JudgementOverlayBackground[key] != UserInterface.BlankBox)
                 {

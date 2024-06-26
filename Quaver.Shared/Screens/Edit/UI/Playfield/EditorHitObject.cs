@@ -57,7 +57,7 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
 
         /// <summary>
         /// </summary>
-        protected SkinKeys SkinMode => Skin.Value.Keys[Map.Mode];
+        protected SkinKeys SkinMode => Skin.Value.Keys[Map.KeyCount];
 
         protected EditorLayerInfo DefaultLayer { get; }
 
@@ -121,13 +121,13 @@ namespace Quaver.Shared.Screens.Edit.UI.Playfield
             var lane = Info.Lane - 1;
 
             // Place the scratch key on the left instead of right if the user has it enabled in gameplay.
-            if (Map.HasScratchKey && ConfigManager.ScratchLaneLeft7K != null && ConfigManager.ScratchLaneLeft7K.Value)
-            {
-                if (Info.Lane == 8)
-                    lane = 0;
-                else
-                    lane++;
-            }
+            // if (Map.HasScratchKey && ConfigManager.ScratchLaneLeft7K != null && ConfigManager.ScratchLaneLeft7K.Value)
+            // {
+            //     if (Info.Lane == 8)
+            //         lane = 0;
+            //     else
+            //         lane++;
+            // }
 
             var x = Playfield.ScreenRectangle.X + Playfield.ColumnSize * lane + Playfield.BorderLeft.Width;
             var y = Playfield.HitPositionY - Info.StartTime * Playfield.TrackSpeed - Height;

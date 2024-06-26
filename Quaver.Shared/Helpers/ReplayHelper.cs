@@ -22,17 +22,18 @@ namespace Quaver.Shared.Helpers
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         internal static Replay GeneratePerfectReplay(Qua map, string md5)
         {
-            var replay = new Replay(map.Mode, "Autoplay", ModManager.Mods, md5);
+            var replay = new Replay(map.KeyCount, "Autoplay", ModManager.Mods, md5);
 
-            switch (map.Mode)
-            {
-                case GameMode.Keys4:
-                case GameMode.Keys7:
-                    replay = Replay.GeneratePerfectReplayKeys(replay, map);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            replay = Replay.GeneratePerfectReplayKeys(replay, map);
+            // switch (map.Mode)
+            // {
+            //     case GameMode.Keys4:
+            //     case GameMode.Keys7:
+            //         replay = Replay.GeneratePerfectReplayKeys(replay, map);
+            //         break;
+            //     default:
+            //         throw new ArgumentOutOfRangeException();
+            // }
 
             return replay;
         }

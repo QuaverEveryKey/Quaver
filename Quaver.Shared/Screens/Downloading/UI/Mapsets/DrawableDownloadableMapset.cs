@@ -375,16 +375,16 @@ namespace Quaver.Shared.Screens.Downloading.UI.Mapsets
         /// <returns></returns>
         public static Texture2D GetModeIcon(DownloadableMapset item)
         {
-            if (item.GameModes.Contains(GameMode.Keys4) && item.GameModes.Contains(GameMode.Keys7))
+            if (item.GameModes.Contains(4) && item.GameModes.Contains(7))
                 return UserInterface.Mode4K7KSmall;
 
-            if (item.GameModes.Contains(GameMode.Keys4))
+            if (item.GameModes.Contains(4))
                 return UserInterface.Mode4KSmall;
 
-            if (item.GameModes.Contains(GameMode.Keys7))
+            if (item.GameModes.Contains(7))
                 return UserInterface.Mode7KSmall;
 
-            throw new ArgumentException();
+            return UserInterface.Mode4K7KSmall;
         }
 
         /// <summary>

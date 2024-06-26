@@ -85,7 +85,7 @@ namespace Quaver.Shared.Online
                     mods = OnlineManager.GetUserActivatedMods(Player.OnlineUser.Id, OnlineManager.CurrentGame);
 
                 // Create the new replay first, when playing a new map, we always want to start off with a fresh replay
-                Replay = new Replay((GameMode) Player.CurrentStatus.GameMode, Player.OnlineUser.Username,
+                Replay = new Replay(Player.CurrentStatus.GameMode, Player.OnlineUser.Username,
                     mods, Player.CurrentStatus.MapMd5);
 
                 // Add all existing frames

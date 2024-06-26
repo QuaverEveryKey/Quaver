@@ -330,7 +330,8 @@ namespace Quaver.Shared.Database.Maps
                         Source = map.SongSource,
                         Tags = map.SongTags,
                         // ReSharper disable once CompareOfFloatsByEqualityOperator
-                        Mode = map.CircleSize == 4 ? Quaver.API.Enums.GameMode.Keys4 : Quaver.API.Enums.GameMode.Keys7,
+                        // KeyCount = map.CircleSize == 4 ? Quaver.API.Enums.GameMode.Keys4 : Quaver.API.Enums.GameMode.Keys7,
+                        KeyCount = (int)map.CircleSize,
                         SongLength = map.TotalTime,
                         Game = MapGame.Osu,
                         OriginalGame = OtherGameMapDatabaseGame.Osu,
@@ -339,7 +340,7 @@ namespace Quaver.Shared.Database.Maps
                         LongNoteCount = map.CountSliders,
                         LocalOffset = map.OffsetLocal,
                         OnlineOffset = map.OffsetOnline,
-                        HasScratchKey = map.CircleSize == 8
+                        // HasScratchKey = map.CircleSize == 8
                     };
 
                     // Get the BPM of the osu! maps

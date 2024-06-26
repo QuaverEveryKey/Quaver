@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Quaver.API.Enums;
+using Quaver.API.Maps;
 using Quaver.Server.Common.Objects;
 using Quaver.Shared.Database.Scores;
 using Quaver.Shared.Online;
@@ -22,7 +23,7 @@ namespace Quaver.Shared.Database.Profiles
         /// <summary>
         /// </summary>
         [Ignore]
-        public Dictionary<GameMode, UserProfileStats> Stats { get; } = new Dictionary<GameMode, UserProfileStats>();
+        public Dictionary<int, UserProfileStats> Stats { get; } = new Dictionary<int, UserProfileStats>();
 
         /// <summary>
         /// </summary>
@@ -33,7 +34,7 @@ namespace Quaver.Shared.Database.Profiles
         /// </summary>
         public UserProfile PopulateStats()
         {
-            foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
+            for (var mode = 0; mode < Qua.MAX_KEY_COUNT; mode++)
             {
                 if (!IsOnline && Stats.ContainsKey(mode))
                 {
@@ -50,20 +51,22 @@ namespace Quaver.Shared.Database.Profiles
             {
                 var stats = new APIRequestUsersFull(OnlineManager.Self.OnlineUser.Id).ExecuteRequest();
 
-                foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
+                for (var mode = 0; mode < Qua.MAX_KEY_COUNT; mode++)
                 {
                     APIResponseUsersFullMode modeStats = null;
 
                     switch (mode)
                     {
-                        case GameMode.Keys4:
+                        case 4:
                             modeStats = stats.User.Keys4;
                             break;
-                        case GameMode.Keys7:
+                        case 7:
                             modeStats = stats.User.Keys7;
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            // throw new ArgumentOutOfRangeException();
+                            modeStats = stats.User.Keys4;
+                            break;
                     }
 
                     var currentMode = Stats[mode];

@@ -261,8 +261,8 @@ namespace Quaver.Shared.Screens.Downloading
 
             if (PreviousSearchQuery != null)
                 CurrentSearchQuery.Value = PreviousSearchQuery;
-            else if (OnlineManager.Connected && OnlineManager.Self?.Stats[ConfigManager.SelectedGameMode.Value]?.OverallPerformanceRating < 150)
-                CurrentSearchQuery.Value = "Easy";
+            // else if (OnlineManager.Connected && OnlineManager.Self?.Stats[ConfigManager.SelectedGameMode.Value]?.OverallPerformanceRating < 150)
+            //     CurrentSearchQuery.Value = "Easy";
 
             StartSearchTask();
         }
@@ -912,7 +912,8 @@ namespace Quaver.Shared.Screens.Downloading
                         return;
                     }
 
-                    var rating = OnlineManager.Self.Stats[ConfigManager.SelectedGameMode.Value].OverallPerformanceRating;
+                    // var rating = OnlineManager.Self.Stats[ConfigManager.SelectedGameMode.Value].OverallPerformanceRating;
+                    var rating = 0;
 
                     var aproxLevel = rating / 20f;
 

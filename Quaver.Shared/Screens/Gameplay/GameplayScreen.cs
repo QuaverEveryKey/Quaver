@@ -335,7 +335,7 @@ namespace Quaver.Shared.Screens.Gameplay
         ///     If true, the gameplay screen is solely for song select preview usage
         /// </summary>
         public bool IsSongSelectPreview { get; }
-        
+
         /// <summary>
         ///     If true, the gameplay screen won't seek to the start when loaded.
         ///     This is used for skin hot-reloading.
@@ -672,15 +672,16 @@ namespace Quaver.Shared.Screens.Gameplay
         /// </summary>
         private void SetRuleset()
         {
-            switch (Map.Mode)
-            {
-                case GameMode.Keys4:
-                case GameMode.Keys7:
-                    Ruleset = new GameplayRulesetKeys(this, Map);
-                    break;
-                default:
-                    throw new InvalidEnumArgumentException();
-            }
+            // switch (Map.Mode)
+            // {
+            //     case GameMode.Keys4:
+            //     case GameMode.Keys7:
+            //         Ruleset = new GameplayRulesetKeys(this, Map);
+            //         break;
+            //     default:
+            //         throw new InvalidEnumArgumentException();
+            // }
+            Ruleset = new GameplayRulesetKeys(this, Map);
         }
 
         /// <summary>
@@ -811,7 +812,7 @@ namespace Quaver.Shared.Screens.Gameplay
                 if (!ModManager.IsActivated(ModIdentifier.Paused) && Ruleset.ScoreProcessor.TotalJudgementCount > 0)
                 {
                     if (ConfigManager.DisplayPauseWarning.Value)
-                        NotificationManager.Show(NotificationLevel.Warning, "WARNING! Your score will not be submitted due to pausing " + 
+                        NotificationManager.Show(NotificationLevel.Warning, "WARNING! Your score will not be submitted due to pausing " +
                                                                             "during gameplay!", null, true);
 
                     ModManager.AddMod(ModIdentifier.Paused);
@@ -1216,9 +1217,9 @@ namespace Quaver.Shared.Screens.Gameplay
                 DiscordHelper.Presence.EndTimestamp = time;
             }
 
-            DiscordHelper.Presence.LargeImageText = OnlineManager.GetRichPresenceLargeKeyText(Ruleset.Mode);
-            DiscordHelper.Presence.SmallImageKey = ModeHelper.ToShortHand(Ruleset.Mode).ToLower();
-            DiscordHelper.Presence.SmallImageText = ModeHelper.ToLongHand(Ruleset.Mode);
+            DiscordHelper.Presence.LargeImageText = OnlineManager.GetRichPresenceLargeKeyText(Ruleset.KeyCount);
+            DiscordHelper.Presence.SmallImageKey = ModeHelper.ToShortHand(Ruleset.KeyCount).ToLower();
+            DiscordHelper.Presence.SmallImageText = ModeHelper.ToLongHand(Ruleset.KeyCount);
             DiscordRpc.UpdatePresence(ref DiscordHelper.Presence);
 
             SteamManager.SetRichPresence("State", DiscordHelper.Presence.State);
@@ -1261,7 +1262,7 @@ namespace Quaver.Shared.Screens.Gameplay
                 content = Map.ToString();
             }
 
-            return new UserClientStatus(status, Map.MapId, MapHash, (byte) Ruleset.Mode, content, (long) ModManager.Mods);
+            return new UserClientStatus(status, Map.MapId, MapHash, (byte) Ruleset.KeyCount, content, (long) ModManager.Mods);
         }
 
         /// <summary>
@@ -1329,7 +1330,7 @@ namespace Quaver.Shared.Screens.Gameplay
                 OnlineManager.Client.SendGameJudgements(judgementsToGive);
         }
 
-        public float SpectatorTargetSyncTime => (this is TournamentGameplayScreen && ((QuaverGame)GameBase.Game).CurrentScreen is TournamentScreen tournamentScreen) 
+        public float SpectatorTargetSyncTime => (this is TournamentGameplayScreen && ((QuaverGame)GameBase.Game).CurrentScreen is TournamentScreen tournamentScreen)
             ? tournamentScreen.GameplayScreens.Min(s =>
             {
                 // We are guaranteed to find a minimum because of the return condition above.
@@ -1605,7 +1606,7 @@ namespace Quaver.Shared.Screens.Gameplay
                     inputManager.ReplayInputManager = null;
                     Ruleset.ScoreProcessor = new ScoreProcessorKeys(Map, 0, JudgementWindowsDatabaseCache.Selected.Value);
 
-                    for (var i = 0; i < Map.GetKeyCount(); i++)
+                    for (var i = 0; i < Map.KeyCount; i++)
                     {
                         inputManager.BindingStore[i].Pressed = false;
                         inputManager.HandleInput(0);

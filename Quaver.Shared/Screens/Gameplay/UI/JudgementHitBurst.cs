@@ -43,7 +43,7 @@ namespace Quaver.Shared.Screens.Gameplay.UI
         /// </summary>
         public float OriginalPosY { get; set; }
 
-        private SkinKeys Skin => SkinManager.Skin.Keys[Screen.Map.Mode];
+        private SkinKeys Skin => SkinManager.Skin.Keys[Screen.Map.KeyCount];
 
         /// <inheritdoc />
         /// <summary>
@@ -112,7 +112,7 @@ namespace Quaver.Shared.Screens.Gameplay.UI
             }
 
             var firstFrame = Frames[0];
-            var scale = SkinManager.Skin.Keys[Screen.Map.Mode].JudgementHitBurstScale / firstFrame.Height;
+            var scale = SkinManager.Skin.Keys[Screen.Map.KeyCount].JudgementHitBurstScale / firstFrame.Height;
 
             var (x, y) = new Vector2(firstFrame.Width, firstFrame.Height) * scale;
             Size = new ScalableVector2(x, y);

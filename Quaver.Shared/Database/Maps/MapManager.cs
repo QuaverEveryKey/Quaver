@@ -114,11 +114,11 @@ namespace Quaver.Shared.Database.Maps
 
                 foreach (var map in maps)
                 {
-                    var target = map.Mode switch
+                    var target = (map.KeyCount % 2 == 0) switch
                     {
-                        GameMode.Keys4 => target4K,
-                        GameMode.Keys7 => target7K,
-                        _ => throw new InvalidOperationException("Map is an invalid game mode")
+                        true => target4K,
+                        false => target7K,
+                        // _ => throw new InvalidOperationException("Map is an invalid game mode")
                     };
 
                     double delta = Math.Abs(map.DifficultyFromMods(mods) - target);
@@ -134,7 +134,7 @@ namespace Quaver.Shared.Database.Maps
             }
 
             // prioritize a gamemode
-            List<Map> prioritized = mapset.Maps.FindAll(x => x.Mode == ConfigManager.PrioritizedGameMode.Value);
+            List<Map> prioritized = mapset.Maps.FindAll(x => x.KeyCount == ConfigManager.PrioritizedGameMode.Value);
 
             // select a map from the prioritized maps
             // if no valid selection from prioritized maps, select from all maps instead

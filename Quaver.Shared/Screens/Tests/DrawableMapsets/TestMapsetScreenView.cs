@@ -99,7 +99,7 @@ namespace Quaver.Shared.Screens.Tests.DrawableMapsets
                     MapSetId = -1,
                     Difficulty10X = difficulty,
                     RankedStatus = RankedStatus.Ranked,
-                    Mode = GameMode.Keys4,
+                    KeyCount = 4,
                     RegularNoteCount = 5000,
                     LongNoteCount = 200
                 });

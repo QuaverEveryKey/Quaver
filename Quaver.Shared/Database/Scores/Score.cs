@@ -128,7 +128,7 @@ namespace Quaver.Shared.Database.Scores
         /// <summary>
         ///     The game mode for this local score.
         /// </summary>
-        public GameMode Mode { get; set; }
+        public int Mode { get; set; }
 
         /// <summary>
         ///     The scroll speed the player used during this play.
@@ -269,7 +269,7 @@ namespace Quaver.Shared.Database.Scores
                 MapMd5 = md5,
                 Name = name,
                 DateTime = $"{System.DateTime.Now.ToShortDateString()} {System.DateTime.Now.ToShortTimeString()}",
-                Mode = processor.Map.Mode,
+                Mode = processor.Map.KeyCount,
                 TotalScore = processor.Score,
                 Grade = processor.Failed ? Grade.F : GradeHelper.GetGradeFromAccuracy(processor.Accuracy),
                 Accuracy = processor.Accuracy,
@@ -317,7 +317,7 @@ namespace Quaver.Shared.Database.Scores
                 MapMd5 = score.MapMd5,
                 Name = score.Username,
                 DateTime = dtDateTime.ToString(CultureInfo.InvariantCulture),
-                Mode = score.Mode,
+                // Mode = score.Mode,
                 TotalScore = score.TotalScore,
                 PerformanceRating = score.PerformanceRating,
                 Grade = GradeHelper.GetGradeFromAccuracy((float) score.Accuracy),

@@ -15,7 +15,7 @@ public class MultiplayerMatchInformationResponseMap
 
     [JsonProperty("name")] public string Name { get; set; }
 
-    [JsonProperty("game_mode")] public GameMode GameMode { get; set; }
+    [JsonProperty("game_mode")] public int GameMode { get; set; }
 }
 
 public class MultiplayerMatchInformationResponsePlayer

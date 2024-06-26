@@ -569,19 +569,21 @@ namespace Quaver.Shared.Screens.Selection
             if (MapManager.Selected.Value == null)
                 return;
 
-            BindableInt scrollSpeed;
+            BindableInt scrollSpeed = MapManager.Selected.Value.KeyCount % 2 == 0
+                ? ConfigManager.ScrollSpeed4K
+                : ConfigManager.ScrollSpeed7K;
 
-            switch (MapManager.Selected.Value.Mode)
-            {
-                case GameMode.Keys4:
-                    scrollSpeed = ConfigManager.ScrollSpeed4K;
-                    break;
-                case GameMode.Keys7:
-                    scrollSpeed = ConfigManager.ScrollSpeed7K;
-                    break;
-                default:
-                    return;
-            }
+            // switch (MapManager.Selected.Value.Mode)
+            // {
+            //     case GameMode.Keys4:
+            //         scrollSpeed = ConfigManager.ScrollSpeed4K;
+            //         break;
+            //     case GameMode.Keys7:
+            //         scrollSpeed = ConfigManager.ScrollSpeed7K;
+            //         break;
+            //     default:
+            //         return;
+            // }
 
             var changed = false;
 
@@ -601,7 +603,7 @@ namespace Quaver.Shared.Screens.Selection
 
             if (changed)
             {
-                NotificationManager.Show(NotificationLevel.Info, $"Your {ModeHelper.ToShortHand(MapManager.Selected.Value.Mode)} " +
+                NotificationManager.Show(NotificationLevel.Info, $"Your {ModeHelper.ToShortHand(MapManager.Selected.Value.KeyCount)} " +
                                                                  $"scroll speed has been changed to: {scrollSpeed.Value / 10f:0.0}");
             }
         }
@@ -763,7 +765,7 @@ namespace Quaver.Shared.Screens.Selection
             ThreadScheduler.Run(() =>
             {
                 OnlineManager.Client.ChangeMultiplayerGameMap(map.Md5Checksum, map.MapId,
-                    map.MapSetId, map.ToString(), (byte)map.Mode, map.DifficultyFromMods(ModManager.Mods),
+                    map.MapSetId, map.ToString(), (byte)map.KeyCount, map.DifficultyFromMods(ModManager.Mods),
                     map.GetDifficultyRatings(), map.GetJudgementCount(), MapManager.Selected.Value.GetAlternativeMd5());
 
                 OnlineManager.Client.SetGameCurrentlySelectingMap(false);
@@ -819,7 +821,7 @@ namespace Quaver.Shared.Screens.Selection
         private bool CheckMultiplayerGameMode()
         {
             // Prevent disallowed game modes from being selected
-            if (!OnlineManager.CurrentGame.AllowedGameModes.Contains((byte)MapManager.Selected.Value.Mode))
+            if (!OnlineManager.CurrentGame.AllowedGameModes.Contains((byte)MapManager.Selected.Value.KeyCount))
             {
                 NotificationManager.Show(NotificationLevel.Error, "You cannot pick maps of this game mode in this multiplayer match!");
                 return false;

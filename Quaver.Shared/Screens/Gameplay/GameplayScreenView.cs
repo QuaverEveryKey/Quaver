@@ -389,7 +389,7 @@ namespace Quaver.Shared.Screens.Gameplay
             if (!ConfigManager.DisplaySongTimeProgress.Value)
                 return;
 
-            var skin = SkinManager.Skin.Keys[Screen.Map.Mode];
+            var skin = SkinManager.Skin.Keys[Screen.Map.KeyCount];
 
             ProgressBar = new SongTimeProgressBar(Screen, new Vector2(WindowManager.Width, 4), 0, Screen.Map.Length / ModHelper.GetRateFromMods(ModManager.Mods), 0,
                 skin.SongTimeProgressInactiveColor, skin.SongTimeProgressActiveColor)
@@ -405,15 +405,15 @@ namespace Quaver.Shared.Screens.Gameplay
         /// </summary>
         private void CreateScoreDisplay()
         {
-            var skin = SkinManager.Skin.Keys[Screen.Map.Mode];
+            var skin = SkinManager.Skin.Keys[Screen.Map.KeyCount];
 
             ScoreDisplay = new GameplayNumberDisplay(NumberDisplayType.Score, StringHelper.ScoreToString(0),
                 new Vector2(skin.ScoreDisplayScale / 100f, skin.ScoreDisplayScale / 100f))
             {
                 Parent = Container,
                 Alignment = Alignment.TopLeft,
-                X = SkinManager.Skin.Keys[Screen.Map.Mode].ScoreDisplayPosX,
-                Y = SkinManager.Skin.Keys[Screen.Map.Mode].ScoreDisplayPosY
+                X = SkinManager.Skin.Keys[Screen.Map.KeyCount].ScoreDisplayPosX,
+                Y = SkinManager.Skin.Keys[Screen.Map.KeyCount].ScoreDisplayPosY
             };
         }
 
@@ -422,15 +422,15 @@ namespace Quaver.Shared.Screens.Gameplay
         /// </summary>
         private void CreateRatingDisplay()
         {
-            var skin = SkinManager.Skin.Keys[Screen.Map.Mode];
+            var skin = SkinManager.Skin.Keys[Screen.Map.KeyCount];
 
             RatingDisplay = new GameplayNumberDisplay(NumberDisplayType.Rating, StringHelper.RatingToString(0),
                 new Vector2(skin.RatingDisplayScale / 100f, skin.RatingDisplayScale / 100f))
             {
                 Parent = Container,
                 Alignment = Alignment.TopLeft,
-                X = SkinManager.Skin.Keys[Screen.Map.Mode].RatingDisplayPosX,
-                Y = 40 + SkinManager.Skin.Keys[Screen.Map.Mode].RatingDisplayPosY
+                X = SkinManager.Skin.Keys[Screen.Map.KeyCount].RatingDisplayPosX,
+                Y = 40 + SkinManager.Skin.Keys[Screen.Map.KeyCount].RatingDisplayPosY
             };
         }
 
@@ -439,15 +439,15 @@ namespace Quaver.Shared.Screens.Gameplay
         /// </summary>
         private void CreateAccuracyDisplay()
         {
-            var skin = SkinManager.Skin.Keys[Screen.Map.Mode];
+            var skin = SkinManager.Skin.Keys[Screen.Map.KeyCount];
 
             AccuracyDisplay = new GameplayNumberDisplay(NumberDisplayType.Accuracy, StringHelper.AccuracyToString(0),
                 new Vector2(skin.AccuracyDisplayScale / 100f, skin.AccuracyDisplayScale / 100f))
             {
                 Parent = Container,
                 Alignment = Alignment.TopRight,
-                X = SkinManager.Skin.Keys[Screen.Map.Mode].AccuracyDisplayPosX,
-                Y = SkinManager.Skin.Keys[Screen.Map.Mode].AccuracyDisplayPosY
+                X = SkinManager.Skin.Keys[Screen.Map.KeyCount].AccuracyDisplayPosX,
+                Y = SkinManager.Skin.Keys[Screen.Map.KeyCount].AccuracyDisplayPosY
             };
         }
 
@@ -471,15 +471,15 @@ namespace Quaver.Shared.Screens.Gameplay
         /// </summary>
         private void CreateKeysPerSecondDisplay()
         {
-            var skin = SkinManager.Skin.Keys[Screen.Map.Mode];
+            var skin = SkinManager.Skin.Keys[Screen.Map.KeyCount];
 
             // Create KPS display
             KpsDisplay = new KeysPerSecond(NumberDisplayType.Score, "0", new Vector2(skin.KpsDisplayScale / 100f, skin.KpsDisplayScale / 100f))
             {
                 Parent = Container,
                 Alignment = Alignment.TopRight,
-                X = SkinManager.Skin.Keys[Screen.Map.Mode].KpsDisplayPosX,
-                Y = 40 + SkinManager.Skin.Keys[Screen.Map.Mode].KpsDisplayPosY
+                X = SkinManager.Skin.Keys[Screen.Map.KeyCount].KpsDisplayPosX,
+                Y = 40 + SkinManager.Skin.Keys[Screen.Map.KeyCount].KpsDisplayPosY
             };
         }
 

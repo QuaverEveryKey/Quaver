@@ -55,7 +55,7 @@ namespace Quaver.Shared.Screens.Gameplay.UI
         {
             Screen = screen;
 
-            var skin = SkinManager.Skin.Keys[screen.Map.Mode];
+            var skin = SkinManager.Skin.Keys[screen.Map.KeyCount];
             if (ConfigManager.DisplaySongTimeProgressNumbers.Value)
             {
                 CurrentTime = new GameplayNumberDisplay(NumberDisplayType.SongTime, "00:00",

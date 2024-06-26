@@ -33,7 +33,7 @@ namespace Quaver.Shared.Online.API.Maps
         public string CreatorUsername { get; set; }
 
         [JsonProperty("game_mode")]
-        public GameMode GameMode { get; set; }
+        public int GameMode { get; set; }
 
         [JsonProperty("ranked_status")]
         public RankedStatus RankedStatus { get; set; }

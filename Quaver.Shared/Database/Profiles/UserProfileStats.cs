@@ -15,7 +15,7 @@ namespace Quaver.Shared.Database.Profiles
 
         /// <summary>
         /// </summary>
-        public GameMode Mode { get; }
+        public int Mode { get; }
 
         /// <summary>
         /// </summary>
@@ -65,7 +65,7 @@ namespace Quaver.Shared.Database.Profiles
         /// </summary>
         /// <param name="profile"></param>
         /// <param name="mode"></param>
-        public UserProfileStats(UserProfile profile, GameMode mode)
+        public UserProfileStats(UserProfile profile, int mode)
         {
             Profile = profile;
             Mode = mode;

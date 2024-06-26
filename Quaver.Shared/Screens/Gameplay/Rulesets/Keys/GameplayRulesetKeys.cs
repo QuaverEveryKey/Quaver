@@ -51,11 +51,11 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys
         {
             get
             {
-                switch (MapManager.Selected.Value?.Qua?.Mode)
+                switch (MapManager.Selected.Value?.Qua?.KeyCount)
                 {
-                    case GameMode.Keys4:
+                    case 4:
                         return ConfigManager.ScrollDirection4K.Value;
-                    case GameMode.Keys7:
+                    case 7:
                         return ConfigManager.ScrollDirection7K.Value;
                     default:
                         return ConfigManager.ScrollDirection4K.Value;
@@ -83,7 +83,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys
 
             var direction = ScrollDirection;
             var playfield = (GameplayPlayfieldKeys)Playfield;
-            var keys = MapManager.Selected.Value.Qua?.GetKeyCount() ?? 4;
+            var keys = MapManager.Selected.Value.Qua?.KeyCount ?? 4;
 
             if (direction.Equals(ScrollDirection.Split))
             {
@@ -158,6 +158,6 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys
         /// <summary>
         /// </summary>
         /// <returns></returns>
-        protected override IGameplayInputManager CreateInputManager() => new KeysInputManager(this, Map.Mode);
+        protected override IGameplayInputManager CreateInputManager() => new KeysInputManager(this, Map.KeyCount);
     }
 }

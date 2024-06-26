@@ -242,7 +242,7 @@ namespace Quaver.Shared.Screens.MultiplayerLobby.UI.Dialogs.Create
                 var ruleset = Enum.Parse<MultiplayerGameRuleset>(Ruleset.Dropdown.SelectedText.Text
                     .Replace("-", "_")
                     .Replace(" ", "_"));
-                var mode = (byte) MapManager.Selected.Value.Mode;
+                var mode = (byte) MapManager.Selected.Value.KeyCount;
                 var difficultyRating = MapManager.Selected.Value.DifficultyFromMods(ModManager.Mods);
                 var md5 = MapManager.Selected.Value.Md5Checksum;
                 var difficultyRatings = MapManager.Selected.Value.GetDifficultyRatings();

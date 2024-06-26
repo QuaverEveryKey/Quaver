@@ -105,7 +105,7 @@ namespace Quaver.Shared.Database.Maps.Etterna
                         Path = mapPath,
                         MapSetId = -1,
                         MapId = -1,
-                        Mode = GameMode.Keys4,
+                        KeyCount = 4,
                         Game = MapGame.Etterna,
                         OriginalGame = OtherGameMapDatabaseGame.Etterna,
                         DifficultyName = step.Difficulty.ToString(),

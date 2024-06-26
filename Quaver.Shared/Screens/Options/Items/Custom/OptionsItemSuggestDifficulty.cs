@@ -1,6 +1,7 @@
 using System;
 using MonoGame.Extended;
 using Quaver.API.Enums;
+using Quaver.API.Maps;
 using Quaver.Shared.Assets;
 using Quaver.Shared.Config;
 using Quaver.Shared.Database.Profiles;
@@ -37,14 +38,14 @@ namespace Quaver.Shared.Screens.Options.Items.Custom
 
             Button.Clicked += (sender, args) =>
             {
-                foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
+                for (var mode = 0; mode < Qua.MAX_KEY_COUNT; mode++)
                     UpdateSuggestedDifficulty(mode);
 
                 NotificationManager.Show(NotificationLevel.Info, $"Suggested difficulties have been recalculated.");
             };
         }
 
-        private static void UpdateSuggestedDifficulty(GameMode mode)
+        private static void UpdateSuggestedDifficulty(int mode)
         {
             var profile = UserProfileDatabaseCache.Selected.Value;
             profile.PopulateStats();
@@ -54,14 +55,15 @@ namespace Quaver.Shared.Screens.Options.Items.Custom
 
             switch (mode)
             {
-                case GameMode.Keys4:
+                case 4:
                     ConfigManager.PrioritizedMapDifficulty4K.Value = diff;
                     break;
-                case GameMode.Keys7:
+                case 7:
                     ConfigManager.PrioritizedMapDifficulty7K.Value = diff;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+                    // throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+                    break;
             }
         }
     }

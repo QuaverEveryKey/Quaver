@@ -116,7 +116,7 @@ namespace Quaver.Shared.Screens.Multiplayer.UI
 
             AddContainedDrawable(ArtistTitle);
 
-            Mode = new SpriteTextBitmap(FontsBitmap.GothamRegular, "["  + ModeHelper.ToShortHand((GameMode) game.GameMode) + "]")
+            Mode = new SpriteTextBitmap(FontsBitmap.GothamRegular, "["  + ModeHelper.ToShortHand(game.GameMode) + "]")
             {
                 Parent = this,
                 X = ArtistTitle.X,

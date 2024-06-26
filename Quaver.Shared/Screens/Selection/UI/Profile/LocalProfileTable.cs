@@ -42,7 +42,7 @@ namespace Quaver.Shared.Screens.Selection.UI.Profile
         /// </summary>
         private void InitializeItems()
         {
-            var mode = ConfigManager.SelectedGameMode?.Value ?? GameMode.Keys4;
+            var mode = ConfigManager.SelectedGameMode?.Value ?? 4;
             var stats = Profile.Value.Stats[mode];
 
             var topScore = stats.GetTopScore();

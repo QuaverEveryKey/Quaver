@@ -294,9 +294,9 @@ namespace Quaver.Shared.Screens.MultiplayerLobby.UI.Filter
                 case MultiplayerLobbyGameMode.All:
                     return true;
                 case MultiplayerLobbyGameMode.Keys4:
-                    return (GameMode) game.GameMode == GameMode.Keys4;
+                    return game.GameMode == 4;
                 case MultiplayerLobbyGameMode.Keys7:
-                    return (GameMode) game.GameMode == GameMode.Keys7;
+                    return game.GameMode == 7;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

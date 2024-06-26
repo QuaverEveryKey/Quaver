@@ -175,7 +175,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
             // Reference variables
             var playfield = (GameplayPlayfieldKeys)ruleset.Playfield;
             var posX = playfield.Stage.Receptors[lane].X;
-            var flipNoteBody = direction.Equals(ScrollDirection.Up) && SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].FlipNoteImagesOnUpscroll;
+            var flipNoteBody = direction.Equals(ScrollDirection.Up) && SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].FlipNoteImagesOnUpscroll;
             ScrollDirection = direction;
 
             var scale = ConfigManager.GameplayNoteScale.Value / 100f;
@@ -190,11 +190,11 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
             };
 
             // Handle rotating the objects automatically
-            if (SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].RotateHitObjectsByColumn)
-                HitObjectSprite.Rotation = GetObjectRotation(MapManager.Selected.Value.Mode, lane);
+            if (SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].RotateHitObjectsByColumn)
+                HitObjectSprite.Rotation = GetObjectRotation(MapManager.Selected.Value.KeyCount, lane);
 
             // Create Hold Body
-            var bodies = SkinManager.Skin.Keys[ruleset.Mode].NoteHoldBodies[lane];
+            var bodies = SkinManager.Skin.Keys[ruleset.KeyCount].NoteHoldBodies[lane];
             LongNoteBodySprite = new AnimatableSprite(bodies)
             {
                 Alignment = Alignment.TopLeft,
@@ -213,7 +213,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
             };
 
             // Set long note end properties.
-            LongNoteEndSprite.Image = SkinManager.Skin.Keys[ruleset.Mode].NoteHoldEnds[lane];
+            LongNoteEndSprite.Image = SkinManager.Skin.Keys[ruleset.KeyCount].NoteHoldEnds[lane];
             LongNoteEndSprite.Height = laneSize * LongNoteEndSprite.Image.Height / LongNoteEndSprite.Image.Width;
             LongNoteEndOffset = LongNoteEndSprite.Height / 2f;
 
@@ -239,27 +239,27 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
             Info = info;
 
             var scale = ConfigManager.GameplayNoteScale.Value / 100f;
-            var skin = SkinManager.Skin.Keys[Ruleset.Map.Mode];
+            var skin = SkinManager.Skin.Keys[Ruleset.Map.KeyCount];
             var objectWidth = playfield.LaneSize;
 
             var laneSize = objectWidth * scale;
             var defaultLaneSize = skin.WidthForNoteHeightScale > 0 ? skin.WidthForNoteHeightScale : laneSize;
 
-            if (Ruleset.Screen.Map.HasScratchKey)
-            {
-                if (info.Lane == Ruleset.Screen.Map.GetKeyCount())
-                {
-                    laneSize = skin.ScratchLaneSize * scale;
-                    defaultLaneSize = skin.WidthForNoteHeightScale > 0 ? skin.WidthForNoteHeightScale : playfield.LaneSize;
-                }
-            }
+            // if (Ruleset.Screen.Map.HasScratchKey)
+            // {
+            //     if (info.Lane == Ruleset.Screen.Map.GetKeyCount())
+            //     {
+            //         laneSize = skin.ScratchLaneSize * scale;
+            //         defaultLaneSize = skin.WidthForNoteHeightScale > 0 ? skin.WidthForNoteHeightScale : playfield.LaneSize;
+            //     }
+            // }
 
-            Tint = info.State == HitObjectState.Dead ? SkinManager.Skin.Keys[Ruleset.Mode].DeadNoteColor : Color.White;
+            Tint = info.State == HitObjectState.Dead ? SkinManager.Skin.Keys[Ruleset.KeyCount].DeadNoteColor : Color.White;
             var tint = Tint * (HitObjectManager.ShowHits ? HitObjectManagerKeys.SHOW_HITS_NOTE_ALPHA : 1);
             tint.A = 255;
 
             // Update hitobject sprites
-            HitObjectSprite.Image = GetHitObjectTexture(info.Lane, manager.Ruleset.Mode);
+            HitObjectSprite.Image = GetHitObjectTexture(info.Lane, manager.Ruleset.KeyCount);
             HitObjectSprite.Visible = true;
             HitObjectSprite.Tint = tint;
             StopLongNoteAnimation();
@@ -281,12 +281,12 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
             {
                 LongNoteBodySprite.Tint = tint;
                 LongNoteEndSprite.Tint = tint;
-                LongNoteEndSprite.Visible = SkinManager.Skin.Keys[Ruleset.Mode].DrawLongNoteEnd;
+                LongNoteEndSprite.Visible = SkinManager.Skin.Keys[Ruleset.KeyCount].DrawLongNoteEnd;
                 LongNoteBodySprite.Visible = true;
 
                 UpdateLongNoteSize(Info.InitialTrackPosition, Info.StartTime);
 
-                var flipNoteEnd = playfield.ScrollDirections[info.Lane - 1].Equals(ScrollDirection.Up) && SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].FlipNoteEndImagesOnUpscroll;
+                var flipNoteEnd = playfield.ScrollDirections[info.Lane - 1].Equals(ScrollDirection.Up) && SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].FlipNoteEndImagesOnUpscroll;
                 if (HitObjectManager.IsSVNegative(info.EndTime))
                     // LN ends on negative SV => end should be flipped (since it's going upside down).
                     flipNoteEnd = !flipNoteEnd;
@@ -395,7 +395,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
             // When LN end is not drawn, the LNs don't change their size as they are held.
             // So we only need to update if DrawLongNoteEnd is true.
             // The IsLongNote check is because UpdateLongNoteSize uses a property that is only initialized for LNs.
-            if (Info.IsLongNote && SkinManager.Skin.Keys[Ruleset.Mode].DrawLongNoteEnd)
+            if (Info.IsLongNote && SkinManager.Skin.Keys[Ruleset.KeyCount].DrawLongNoteEnd)
                 UpdateLongNoteSize(offset, curTime);
 
             UpdateSpritePositions(offset, curTime);
@@ -412,7 +412,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
             // the end.
             float spritePosition;
 
-            if (Info.State == HitObjectState.Held && SkinManager.Skin.Keys[Ruleset.Mode].DrawLongNoteEnd)
+            if (Info.State == HitObjectState.Held && SkinManager.Skin.Keys[Ruleset.KeyCount].DrawLongNoteEnd)
             {
                 UpdateLongNoteSize(offset, curTime);
 
@@ -466,7 +466,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
         ///     If not, we default it to the first beat snap in the list.
         /// </summary>
         /// <returns></returns>
-        private Texture2D GetHitObjectTexture(int lane, GameMode mode)
+        private Texture2D GetHitObjectTexture(int lane, int mode)
         {
             lane = lane - 1;
             var skin = SkinManager.Skin.Keys[mode];
@@ -492,7 +492,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
         /// </summary>
         public void Kill()
         {
-            Tint = SkinManager.Skin.Keys[Ruleset.Mode].DeadNoteColor;
+            Tint = SkinManager.Skin.Keys[Ruleset.KeyCount].DeadNoteColor;
             var tint = Tint * (HitObjectManager.ShowHits ? HitObjectManagerKeys.SHOW_HITS_NOTE_ALPHA : 1);
             tint.A = 255;
             HitObjectSprite.Tint = tint;
@@ -545,51 +545,52 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.HitObjects
 
         /// <summary>
         /// </summary>
-        /// <param name="mode"></param>
+        /// <param name="keyCount"></param>
         /// <param name="lane"></param>
         /// <returns></returns>
-        public static float GetObjectRotation(GameMode mode, int lane)
+        public static float GetObjectRotation(int keyCount, int lane)
         {
-            switch (mode)
-            {
-                case GameMode.Keys4:
-                    switch (lane)
-                    {
-                        case 0:
-                            return  90;
-                        case 1:
-                            // Already downwards
-                            break;
-                        case 2:
-                            return 180;
-                        case 3:
-                            return 270;
-                    }
-                    break;
-                case GameMode.Keys7:
-                    switch (lane)
-                    {
-                        case 0:
-                            return 90;
-                        case 1:
-                            return 135;
-                        case 2:
-                            return 180;
-                        case 3:
-                            // Already downwards
-                            break;
-                        case 4:
-                            return 180;
-                        case 5:
-                            return 225;
-                        case 6:
-                            return 270;
-                    }
+            return (lane + 1) * 45;
+            // switch (keyCount)
+            // {
+            //     case GameMode.Keys4:
+            //         switch (lane)
+            //         {
+            //             case 0:
+            //                 return  90;
+            //             case 1:
+            //                 // Already downwards
+            //                 break;
+            //             case 2:
+            //                 return 180;
+            //             case 3:
+            //                 return 270;
+            //         }
+            //         break;
+            //     case GameMode.Keys7:
+            //         switch (lane)
+            //         {
+            //             case 0:
+            //                 return 90;
+            //             case 1:
+            //                 return 135;
+            //             case 2:
+            //                 return 180;
+            //             case 3:
+            //                 // Already downwards
+            //                 break;
+            //             case 4:
+            //                 return 180;
+            //             case 5:
+            //                 return 225;
+            //             case 6:
+            //                 return 270;
+            //         }
 
-                    break;
-            }
+            //         break;
+            // }
 
-            return 0;
+            // return 0;
         }
     }
 }

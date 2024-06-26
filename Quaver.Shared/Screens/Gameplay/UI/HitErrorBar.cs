@@ -85,7 +85,7 @@ namespace Quaver.Shared.Screens.Gameplay.UI
             }
 
             // Create the hit chevron.
-            var chevronSize = SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].HitErrorChevronSize;
+            var chevronSize = SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].HitErrorChevronSize;
 
             LastHitCheveron = new Sprite()
             {
@@ -127,7 +127,7 @@ namespace Quaver.Shared.Screens.Gameplay.UI
             if (CurrentLinePoolIndex >= PoolSize)
                 CurrentLinePoolIndex = 0;
 
-            LineObjectPool[CurrentLinePoolIndex].Tint = SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].JudgeColors[j];
+            LineObjectPool[CurrentLinePoolIndex].Tint = SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].JudgeColors[j];
 
             LineObjectPool[CurrentLinePoolIndex].X = -(float)hitTime / ModHelper.GetRateFromMods(ModManager.Mods);
             LineObjectPool[CurrentLinePoolIndex].Alpha = Alpha;

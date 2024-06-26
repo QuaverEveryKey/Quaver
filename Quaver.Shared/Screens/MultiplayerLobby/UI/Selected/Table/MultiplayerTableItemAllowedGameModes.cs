@@ -20,7 +20,7 @@ namespace Quaver.Shared.Screens.MultiplayerLobby.UI.Selected.Table
             if (SelectedGame.Value.AllowedGameModes == null)
                 return "None";
 
-            var modesList = SelectedGame.Value.AllowedGameModes.Select(x => ModeHelper.ToShortHand((GameMode) x)).ToList();
+            var modesList = SelectedGame.Value.AllowedGameModes.Select(x => ModeHelper.ToShortHand(x)).ToList();
 
             if (modesList.Count == 0)
                 return "None";

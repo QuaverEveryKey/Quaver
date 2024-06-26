@@ -72,7 +72,7 @@ namespace Quaver.Shared.Screens.Edit.Plugins
 
             EditorPluginMap = new EditorPluginMap();
 
-            UserData.RegisterType<GameMode>();
+            UserData.RegisterType<int>();
             UserData.RegisterType<HitSounds>();
             UserData.RegisterType<TimeSignature>();
             UserData.RegisterType<EditorActionType>();
@@ -91,7 +91,7 @@ namespace Quaver.Shared.Screens.Edit.Plugins
         public override void SetFrameState()
         {
             WorkingScript.Globals["utils"] = typeof(EditorPluginUtils);
-            WorkingScript.Globals["game_mode"] = typeof(GameMode);
+            WorkingScript.Globals["game_mode"] = typeof(int);
             WorkingScript.Globals["hitsounds"] = typeof(HitSounds);
             WorkingScript.Globals["time_signature"] = typeof(TimeSignature);
             WorkingScript.Globals["action_type"] = typeof(EditorActionType);

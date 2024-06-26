@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Quaver.API.Enums;
 using Quaver.API.Helpers;
+using Quaver.API.Maps;
 using Quaver.Shared.Config;
 using Quaver.Shared.Graphics;
 using Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield.Health;
@@ -35,7 +36,7 @@ namespace Quaver.Shared.Skinning
         /// <summary>
         ///     The game mode this skin is for.
         /// </summary>
-        private GameMode Mode { get; }
+        private int Mode { get; }
 
         /// <summary>
         /// </summary>
@@ -84,17 +85,7 @@ namespace Quaver.Shared.Skinning
             {Judgement.Miss, new Color(255, 0, 0)}
         };
 
-        internal List<Color> ColumnColors { get; private set; } = new List<Color>()
-        {
-            Color.Transparent,
-            Color.Transparent,
-            Color.Transparent,
-            Color.Transparent,
-            Color.Transparent,
-            Color.Transparent,
-            Color.Transparent,
-            Color.Transparent,
-        };
+        internal List<Color> ColumnColors { get; private set; } = new List<Color>(Enumerable.Range(1,64).Select(x => Color.Transparent));
 
         internal float BgMaskAlpha { get; private set;  }
 
@@ -381,7 +372,7 @@ namespace Quaver.Shared.Skinning
         /// </summary>
         /// <param name="store"></param>
         /// <param name="mode"></param>
-        internal SkinKeys(SkinStore store, GameMode mode)
+        internal SkinKeys(SkinStore store, int mode)
         {
             Store = store;
             Mode = mode;
@@ -586,7 +577,7 @@ namespace Quaver.Shared.Skinning
             }
             else
             {
-                resource = $"Quaver.Resources/Textures/Skins/{DefaultSkin}/{Mode.ToString()}/{folder.ToString()}" +
+                resource = $"Quaver.Resources/Textures/Skins/{DefaultSkin}/Keys{Mode}/{folder.ToString()}" +
                                $"/{GetResourcePath(element)}.png";
             }
 
@@ -613,7 +604,7 @@ namespace Quaver.Shared.Skinning
             }
             else
             {
-                resource = $"Quaver.Resources/Textures/Skins/{DefaultSkin}/{Mode.ToString()}/{folder.ToString()}" +
+                resource = $"Quaver.Resources/Textures/Skins/{DefaultSkin}/Keys{Mode}/{folder.ToString()}" +
                            $"/{GetResourcePath(element)}";
             }
 
@@ -679,10 +670,10 @@ namespace Quaver.Shared.Skinning
         /// </summary>
         private void LoadLaneSpecificElements()
         {
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < Qua.MAX_KEY_COUNT; i++)
             {
-                if (i == 5 && Mode == GameMode.Keys4)
-                    break;
+                // if (i == 5 && Mode == GameMode.Keys4)
+                //     break;
 
                 // Column Colors
                 if (Store.Config != null)

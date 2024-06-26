@@ -113,7 +113,7 @@ namespace Quaver.Shared.Screens.Multi
             }
             MapLoadingScreen.AddModsFromIdentifiers(OnlineManager.GetSelfActivatedMods());
             OnlineManager.SendGameDifficultyRatings(OnlineManager.CurrentGame.MapMd5, OnlineManager.CurrentGame.AlternativeMd5);
-            
+
             base.OnFirstUpdate();
         }
 
@@ -399,7 +399,7 @@ namespace Quaver.Shared.Screens.Multi
                 Name = "Example Game",
                 Type = MultiplayerGameType.Friendly,
                 Ruleset = MultiplayerGameRuleset.Battle_Royale,
-                GameMode = (byte) GameMode.Keys4,
+                GameMode = (byte) 4,
                 PlayerIds = new List<int>(),
                 MaxPlayers = 16,
                 MapMd5 = "None",

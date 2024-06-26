@@ -22,9 +22,9 @@ namespace Quaver.Shared.Screens.Options.Items.Custom
 
                 ConfigManager.PrioritizedGameMode.Value = args.Text switch
                 {
-                    "None" => (GameMode)0,
-                    "4 Keys" => GameMode.Keys4,
-                    "7 Keys" => GameMode.Keys7,
+                    "None" => 0,
+                    "4 Keys" => 4,
+                    "7 Keys" => 7,
                     _ => throw new InvalidEnumArgumentException()
                 };
             };

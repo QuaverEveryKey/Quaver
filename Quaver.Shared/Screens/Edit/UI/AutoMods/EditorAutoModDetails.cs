@@ -75,7 +75,7 @@ namespace Quaver.Shared.Screens.Edit.UI.AutoMods
 
         private void CreateTextMode()
         {
-            Mode = new TextKeyValue("Mode:", ModeHelper.ToShortHand(Panel.Map.Mode), FontSize,
+            Mode = new TextKeyValue("Mode:", ModeHelper.ToShortHand(Panel.Map.KeyCount), FontSize,
                 Color.White)
             {
                 Parent = this,
@@ -83,12 +83,12 @@ namespace Quaver.Shared.Screens.Edit.UI.AutoMods
                 Y = Difficulty.Y + Difficulty.Height + SpacingY,
             };
 
-            switch (Panel.Map.Mode)
+            switch (Panel.Map.KeyCount % 2 == 0)
             {
-                case GameMode.Keys4:
+                case true:
                     Mode.Value.Tint = ColorHelper.HexToColor("#0587E5");
                     break;
-                case GameMode.Keys7:
+                case false:
                     Mode.Value.Tint = ColorHelper.HexToColor("#9B51E0");
                     break;
                 default:

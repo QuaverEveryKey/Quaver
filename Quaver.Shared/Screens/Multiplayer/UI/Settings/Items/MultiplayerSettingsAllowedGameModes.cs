@@ -32,15 +32,16 @@ namespace Quaver.Shared.Screens.Multiplayer.UI.Settings.Items
 
         public static string AllowedModesToString(List<byte> modes)
         {
-            var modesList = modes.Select(x => ModeHelper.ToShortHand((GameMode) x)).ToList();
+            // var modesList = modes.Select(x => ModeHelper.ToShortHand((GameMode) x)).ToList();
 
-            if (modesList.Count == 0)
-                return "None";
+            // if (modesList.Count == 0)
+            //     return "None";
 
-            if (modesList.Count == 1)
-                return modesList.First();
+            // if (modesList.Count == 1)
+            //     return modesList.First();
 
-            return string.Join(", ", modesList);
+            // return string.Join(", ", modesList);
+            return "None";
         }
     }
 }

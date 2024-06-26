@@ -46,7 +46,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
         /// <summary>
         /// </summary>
         public HitLighting(GameplayPlayfieldKeys playfield, int columnIndex)
-            : base(SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].HitLighting)
+            : base(SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].HitLighting)
         {
             Playfield = playfield;
             ColumnIndex = columnIndex;
@@ -72,7 +72,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
         /// </summary>
         public void PerformHitAnimation(bool isLongNote, Judgement judgement = Judgement.Ghost)
         {
-            var skin = SkinManager.Skin.Keys[MapManager.Selected.Value.Mode];
+            var skin = SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount];
             IsHoldingLongNote = isLongNote;
 
             if (ConfigManager.TintHitLightingBasedOnJudgementColor.Value && judgement != Judgement.Ghost)
@@ -103,7 +103,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
             var rotate = IsHoldingLongNote ? skin.HoldLightingColumnRotation : skin.HitLightingColumnRotation;
 
             if (rotate)
-                Rotation = GameplayHitObjectKeys.GetObjectRotation(Playfield.Ruleset.Map.Mode, ColumnIndex);
+                Rotation = GameplayHitObjectKeys.GetObjectRotation(Playfield.Ruleset.Map.KeyCount, ColumnIndex);
             else
                 Rotation = 0;
 

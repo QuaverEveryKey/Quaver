@@ -275,14 +275,15 @@ namespace Quaver.Shared.Screens.Edit
             if (UnEditablePlayfield == null)
                 return;
 
-            var spacing = EditScreen.WorkingMap.Mode == GameMode.Keys4 ? 120 : 60;
+            // var spacing = EditScreen.WorkingMap.Mode == GameMode.Keys4 ? 120 : 60;
+            var spacing = 60;
 
             Playfield.X = -Playfield.Width / 2 - spacing;
             UnEditablePlayfield.X = Playfield.Width / 2 + spacing;
 
             Playfield.ResetObjectPositions();
             UnEditablePlayfield.ResetObjectPositions();
-            
+
             // Makes it so that the playfield bookmark tooltips appear above reference difficulty
             Playfield.Parent = Container;
         }
@@ -386,14 +387,15 @@ namespace Quaver.Shared.Screens.Edit
                 Y = 34,
             };
 
-            var spacing = EditScreen.WorkingMap.Mode == GameMode.Keys4 ? 120 : 60;
+            // var spacing = EditScreen.WorkingMap.Mode == GameMode.Keys4 ? 120 : 60;
+            var spacing = 60;
 
             Playfield.X = -Playfield.Width / 2 - spacing;
             MapPreview.X = Playfield.Width / 2 + spacing;
-            
+
             // Makes it so that the playfield bookmark tooltips appear above preview.
             Playfield.Parent = Container;
-            
+
             // Makes it so the selector goes above editor after enabling preview.
             Selector.Parent = Container;
 

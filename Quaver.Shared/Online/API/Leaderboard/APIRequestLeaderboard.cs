@@ -9,9 +9,9 @@ namespace Quaver.Shared.Online.API.Leaderboard
 {
     public class APIRequestLeaderboard : APIRequest<LeaderboardResponse>
     {
-        private GameMode Mode { get; }
+        private int Mode { get; }
 
-        public APIRequestLeaderboard(GameMode mode) => Mode = mode;
+        public APIRequestLeaderboard(int mode) => Mode = mode;
 
         public override LeaderboardResponse ExecuteRequest()
         {

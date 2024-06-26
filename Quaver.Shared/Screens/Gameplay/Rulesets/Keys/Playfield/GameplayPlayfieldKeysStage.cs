@@ -155,7 +155,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
         /// <summary>
         ///     Make a quicker and shorter reference to the game skin
         /// </summary>
-        public SkinKeys Skin => SkinManager.Skin.Keys[Screen.Map.Mode];
+        public SkinKeys Skin => SkinManager.Skin.Keys[Screen.Map.KeyCount];
 
         /// <summary>
         /// </summary>
@@ -354,10 +354,10 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
             Receptors = new List<Sprite>();
             ColumnLightingObjects = new List<ColumnLighting>();
 
-            var scratchLaneLeft = Screen.Map.Mode == GameMode.Keys4 ? ConfigManager.ScratchLaneLeft4K.Value : ConfigManager.ScratchLaneLeft7K.Value;
+            var scratchLaneLeft = Screen.Map.KeyCount % 2 == 0 ? ConfigManager.ScratchLaneLeft4K.Value : ConfigManager.ScratchLaneLeft7K.Value;
 
             // Go through and create the receptors and column lighting objects.
-            for (var i = 0; i < Screen.Map.GetKeyCount(Screen.Map.HasScratchKey); i++)
+            for (var i = 0; i < Screen.Map.KeyCount; i++)
             {
                 var scale = ConfigManager.GameplayNoteScale.Value / 100f;
                 var laneSize = Playfield.LaneSize;
@@ -365,24 +365,24 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
                 var posX = defaultLanePos;
 
                 // Handle scratch key positioning
-                if (Screen.Map.HasScratchKey)
-                {
-                    if (i == Screen.Map.GetKeyCount() - 1)
-                        laneSize = Skin.ScratchLaneSize;
+                // if (Screen.Map.HasScratchKey)
+                // {
+                //     if (i == Screen.Map.GetKeyCount() - 1)
+                //         laneSize = Skin.ScratchLaneSize;
 
-                    if (scratchLaneLeft)
-                    {
-                        if (i == Screen.Map.GetKeyCount() - 1)
-                            posX = Playfield.Padding;
-                        else
-                            posX = (Playfield.LaneSize + Playfield.ReceptorPadding) * i + Playfield.Padding +
-                                   Skin.ScratchLaneSize + Playfield.ReceptorPadding;
-                    }
-                }
-                else
-                {
+                //     if (scratchLaneLeft)
+                //     {
+                //         if (i == Screen.Map.GetKeyCount() - 1)
+                //             posX = Playfield.Padding;
+                //         else
+                //             posX = (Playfield.LaneSize + Playfield.ReceptorPadding) * i + Playfield.Padding +
+                //                    Skin.ScratchLaneSize + Playfield.ReceptorPadding;
+                //     }
+                // }
+                // else
+                // {
                     posX = (Playfield.LaneSize + Playfield.ReceptorPadding) * i + Playfield.Padding;
-                }
+                // }
 
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (scale != 1)
@@ -486,7 +486,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
         /// </summary>
         private void CreateComboDisplay()
         {
-            var skin = SkinManager.Skin.Keys[Screen.Map.Mode];
+            var skin = SkinManager.Skin.Keys[Screen.Map.KeyCount];
 
             // Create the combo display.
             ComboDisplay = new GameplayNumberDisplay(NumberDisplayType.Combo, "0",
@@ -543,8 +543,8 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
         /// </summary>
         private void CreateJudgementHitBurst()
         {
-            var skin = SkinManager.Skin.Keys[Screen.Map.Mode];
-            JudgementHitBursts = new List<JudgementHitBurst>(); 
+            var skin = SkinManager.Skin.Keys[Screen.Map.KeyCount];
+            JudgementHitBursts = new List<JudgementHitBurst>();
 
             // Default the frames to miss.
             var frames = SkinManager.Skin.Judgements[Judgement.Miss];
@@ -556,7 +556,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
             var size = new Vector2(firstFrame.Width, firstFrame.Height) * Skin.JudgementHitBurstScale / firstFrame.Height;
 
             var judgementBurstCount = skin.DisplayJudgementsInEachColumn ?
-                Screen.Map.GetKeyCount(Screen.Map.HasScratchKey) : 1;
+                Screen.Map.KeyCount : 1;
 
             var playfieldOffset = (Playfield.Width / 2) - (Playfield.LaneSize / 2);
 
@@ -570,7 +570,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
                 };
 
                 if (skin.RotateJudgements && skin.DisplayJudgementsInEachColumn)
-                    judgementHitBurst.Rotation = GameplayHitObjectKeys.GetObjectRotation(Screen.Map.Mode, lane);
+                    judgementHitBurst.Rotation = GameplayHitObjectKeys.GetObjectRotation(Screen.Map.KeyCount, lane);
 
                 JudgementHitBursts.Add(judgementHitBurst);
             }
@@ -583,7 +583,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
         {
             HitLightingObjects = new List<HitLighting>();
 
-            for (var i = 0; i < Screen.Map.GetKeyCount(Screen.Map.HasScratchKey); i++)
+            for (var i = 0; i < Screen.Map.KeyCount; i++)
             {
                 var hl = new HitLighting(Playfield, i)
                 {
@@ -620,14 +620,14 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
         /// </summary>
         private void CreateHealthBar()
         {
-            var scale = SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].HealthBarScale;
-            HealthBar = new HealthBar(SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].HealthBarType,
+            var scale = SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].HealthBarScale;
+            HealthBar = new HealthBar(SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].HealthBarType,
                 Playfield.Ruleset.ScoreProcessor, new Vector2(scale / 100f, scale / 100f))
             {
                 Parent = Playfield.ForegroundContainer,
             };
 
-            switch (SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].HealthBarKeysAlignment)
+            switch (SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].HealthBarKeysAlignment)
             {
                 case HealthBarKeysAlignment.LeftStage:
                     HealthBar.Parent = StageLeft;

@@ -41,7 +41,7 @@ namespace Quaver.Shared.Screens.Edit.Actions.HitObjects.Flip
         public void Perform()
         {
             foreach (var h in HitObjects)
-                h.Lane = WorkingMap.GetKeyCount() - h.Lane + 1;
+                h.Lane = WorkingMap.KeyCount - h.Lane + 1;
 
             ActionManager.TriggerEvent(EditorActionType.FlipHitObjects, new EditorHitObjectsFlippedEventArgs(HitObjects));
         }

@@ -29,7 +29,7 @@ namespace Quaver.Shared.Screens.Tests.DrawablePlaylists
                         DifficultyName = "Offset Calibrator",
                         Md5Checksum = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(),
                         Difficulty10X = 12.34,
-                        Mode = GameMode.Keys4,
+                        KeyCount = 4,
                         RankedStatus = RankedStatus.Ranked
                     },
                     new Map()
@@ -40,7 +40,7 @@ namespace Quaver.Shared.Screens.Tests.DrawablePlaylists
                         DifficultyName = "Offset Calibrator",
                         Md5Checksum = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(),
                         Difficulty10X = 42.69,
-                        Mode = GameMode.Keys4,
+                        KeyCount = 4,
                         RankedStatus = RankedStatus.Unranked
                     },
                 }
@@ -80,7 +80,7 @@ namespace Quaver.Shared.Screens.Tests.DrawablePlaylists
                 {
                     new Map()
                     {
-                        Mode = GameMode.Keys7,
+                        KeyCount = 7,
                         Difficulty10X = 24.60,
                         RankedStatus = RankedStatus.Unranked
                     }

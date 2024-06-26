@@ -81,11 +81,11 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield.Hits
         {
             if (HitStat == null)
                 return;
-            
+
             var hitStat = HitStat.Value;
             var info = hitStat.HitObject;
-            
-            if (hitStat.KeyPressType == KeyPressType.Release || 
+
+            if (hitStat.KeyPressType == KeyPressType.Release ||
                 hitStat.KeyPressType == KeyPressType.None && hitStat.Judgement == Judgement.Okay)
             {
                 PerfectPosition = Manager.GetPositionFromTime(info.EndTime);
@@ -112,15 +112,15 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield.Hits
         public DrawableReplayHit(GameplayRulesetKeys ruleset, HitObjectManagerKeys manager, int lane)
         {
             Manager = manager;
-            JudgeColors = SkinManager.Skin.Keys[ruleset.Mode].JudgeColors;
+            JudgeColors = SkinManager.Skin.Keys[ruleset.KeyCount].JudgeColors;
 
             var playfield = (GameplayPlayfieldKeys) ruleset.Playfield;
-            
+
             ScrollDirection = playfield.ScrollDirections[lane];
             LineHitPosition = playfield.TimingLinePositionY[lane];
 
             var laneX = playfield.Stage.Receptors[lane].X;
-            
+
             LineToPerfect = new Sprite
             {
                 Alignment = Alignment.TopLeft,
@@ -130,7 +130,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield.Hits
                 Visible = false,
                 Parent = playfield.Stage.HitContainer,
             };
-            
+
             Indicator = new Sprite
             {
                 Alignment = Alignment.TopLeft,
@@ -201,10 +201,10 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield.Hits
 
             var indicatorPosition = GetIndicatorPosition(offset);
             var perfectPosition = GetPerfectPosition(offset);
-            
+
             Indicator.Y = indicatorPosition;
             LineToPerfect.Height = Math.Abs(perfectPosition - indicatorPosition);
-            
+
             LineToPerfect.Y = indicatorPosition < perfectPosition ? indicatorPosition : perfectPosition;
         }
     }

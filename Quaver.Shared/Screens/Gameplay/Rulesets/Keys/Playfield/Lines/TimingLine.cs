@@ -61,7 +61,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield.Lines
             X = offsetX;
             Height = 2;
             Parent = playfield.Stage.TimingLineContainer;
-            Tint = SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].TimingLineColor;
+            Tint = SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].TimingLineColor;
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield.Lines
             X = offsetX;
             Height = 2;
             Parent = playfield.Stage.TimingLineContainer;
-            Tint = SkinManager.Skin.Keys[MapManager.Selected.Value.Mode].TimingLineColor;
+            Tint = SkinManager.Skin.Keys[MapManager.Selected.Value.KeyCount].TimingLineColor;
             Visible = false;
         }
 

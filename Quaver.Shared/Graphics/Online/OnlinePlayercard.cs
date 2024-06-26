@@ -184,11 +184,11 @@ namespace Quaver.Shared.Graphics.Online
                     Username.Tint = Colors.GetUserChatColor(OnlineManager.Self.OnlineUser.UserGroups);
                     Avatar.Border.Tint = Username.Tint;
 
-                    if (OnlineManager.Self.Stats.ContainsKey(ConfigManager.SelectedGameMode.Value))
-                    {
-                        var stats = OnlineManager.Self.Stats[ConfigManager.SelectedGameMode.Value];
-                        Status.Text = $"#{stats.Rank:n0} - {stats.OverallPerformanceRating:00.00} ({StringHelper.AccuracyToString((float) stats.OverallAccuracy)})";
-                    }
+                    // if (OnlineManager.Self.Stats.ContainsKey(ConfigManager.SelectedGameMode.Value))
+                    // {
+                    //     var stats = OnlineManager.Self.Stats[ConfigManager.SelectedGameMode.Value];
+                    //     Status.Text = $"#{stats.Rank:n0} - {stats.OverallPerformanceRating:00.00} ({StringHelper.AccuracyToString((float) stats.OverallAccuracy)})";
+                    // }
 
                     LoadingWheel.Visible = false;
                     break;
@@ -221,7 +221,7 @@ namespace Quaver.Shared.Graphics.Online
         private void OnOnlineStatusChanged(object sender, BindableValueChangedEventArgs<ConnectionStatus> e)
             => UpdateText();
 
-        private void OnSelectedGameModeChanged(object sender, BindableValueChangedEventArgs<GameMode> e)
+        private void OnSelectedGameModeChanged(object sender, BindableValueChangedEventArgs<int> e)
             => UpdateText();
 
         /// <summary>
@@ -251,11 +251,11 @@ namespace Quaver.Shared.Graphics.Online
             {
                 switch (ConfigManager.SelectedGameMode.Value)
                 {
-                    case API.Enums.GameMode.Keys4:
-                        options.Add(new MenuDialogOption("Change game mode to 7 Keys", () => ConfigManager.SelectedGameMode.Value = API.Enums.GameMode.Keys7));
+                    case 4:
+                        options.Add(new MenuDialogOption("Change game mode to 7 Keys", () => ConfigManager.SelectedGameMode.Value = 7));
                         break;
-                    case API.Enums.GameMode.Keys7:
-                        options.Add(new MenuDialogOption("Change game mode to 4 Keys", () => ConfigManager.SelectedGameMode.Value = API.Enums.GameMode.Keys4));
+                    case 7:
+                        options.Add(new MenuDialogOption("Change game mode to 4 Keys", () => ConfigManager.SelectedGameMode.Value = 4));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

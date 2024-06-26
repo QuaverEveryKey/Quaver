@@ -45,7 +45,7 @@ namespace Quaver.Shared.Online.API.MapsetSearch
         public List<int> Bpms { get; set; }
 
         [JsonProperty("game_modes")]
-        public List<GameMode> GameModes { get; set; }
+        public List<int> GameModes { get; set; }
 
         [JsonProperty("difficulty_names")]
         public List<string> DifficultyNames { get; set; }

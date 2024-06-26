@@ -60,15 +60,15 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
         {
             get
             {
-                var skin = SkinManager.Skin.Keys[Screen.Map.Mode];
+                var skin = SkinManager.Skin.Keys[Screen.Map.KeyCount];
                 var padding = Padding * 2 - ReceptorPadding;
-                var width = (LaneSize + ReceptorPadding) * Screen.Map.GetKeyCount(false) + padding;
+                var width = (LaneSize + ReceptorPadding) * Screen.Map.KeyCount + padding;
 
-                if (Screen.Map.HasScratchKey)
-                {
-                    var size = skin.ScratchLaneSize <= 0 ? LaneSize : skin.ScratchLaneSize;
-                    width += size + ReceptorPadding;
-                }
+                // if (Screen.Map.HasScratchKey)
+                // {
+                //     var size = skin.ScratchLaneSize <= 0 ? LaneSize : skin.ScratchLaneSize;
+                //     width += size + ReceptorPadding;
+                // }
 
                 return width;
             }
@@ -84,7 +84,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
                 if (Screen.IsSongSelectPreview)
                     return 0;
 
-                return SkinManager.Skin.Keys[Screen.Map.Mode].StageReceptorPadding;
+                return SkinManager.Skin.Keys[Screen.Map.KeyCount].StageReceptorPadding;
             }
         }
 
@@ -112,10 +112,10 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
             get
             {
                 // Use skin's ColumnSize if it fits inside the preview, otherwise scale down.
-                var previewWidth = PREVIEW_PLAYFIELD_WIDTH / Screen.Map.GetKeyCount();
-                
-                var columnWidth = SkinManager.Skin.Keys[Screen.Map.Mode].ColumnSize * WindowManager.BaseToVirtualRatio;
-                
+                var previewWidth = PREVIEW_PLAYFIELD_WIDTH / Screen.Map.KeyCount;
+
+                var columnWidth = SkinManager.Skin.Keys[Screen.Map.KeyCount].ColumnSize * WindowManager.BaseToVirtualRatio;
+
                 if (Screen.IsSongSelectPreview && previewWidth < columnWidth)
                     return previewWidth;
 
@@ -133,7 +133,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
                 if (Screen.IsSongSelectPreview)
                     return 0;
 
-                return SkinManager.Skin.Keys[Screen.Map.Mode].NotePadding;
+                return SkinManager.Skin.Keys[Screen.Map.KeyCount].NotePadding;
             }
         }
 
@@ -204,7 +204,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
                 Parent = Container,
                 Size = new ScalableVector2(Width, WindowManager.Height),
                 Alignment = Alignment.TopCenter,
-                X = SkinManager.Skin.Keys[Screen.Map.Mode].ColumnAlignment,
+                X = SkinManager.Skin.Keys[Screen.Map.KeyCount].ColumnAlignment,
             };
 
             // Create the foreground container.
@@ -213,7 +213,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
                 Parent = Container,
                 Size = new ScalableVector2(Width, WindowManager.Height),
                 Alignment = Alignment.TopCenter,
-                X = SkinManager.Skin.Keys[Screen.Map.Mode].ColumnAlignment
+                X = SkinManager.Skin.Keys[Screen.Map.KeyCount].ColumnAlignment
             };
 
             Stage = new GameplayPlayfieldKeysStage(Screen, this);
@@ -227,20 +227,20 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
         /// <returns></returns>
         private void SetLaneScrollDirections()
         {
-            var keys = Ruleset.Screen.Map?.GetKeyCount() ?? 4;
+            var keys = Ruleset.Screen.Map?.KeyCount ?? 4;
 
-            ScrollDirection direction;
-            switch (Ruleset.Map.Mode)
-            {
-                case GameMode.Keys4:
-                    direction = ConfigManager.ScrollDirection4K.Value;
-                    break;
-                case GameMode.Keys7:
-                    direction = ConfigManager.ScrollDirection7K.Value;
-                    break;
-                default:
-                    throw new Exception("Map Mode does not exist.");
-            }
+            ScrollDirection direction = Ruleset.Map.KeyCount % 2 == 0 ? ConfigManager.ScrollDirection4K.Value : ConfigManager.ScrollDirection7K.Value;
+            // switch (Ruleset.Map.Mode)
+            // {
+            //     case GameMode.Keys4:
+            //         direction = ConfigManager.ScrollDirection4K.Value;
+            //         break;
+            //     case GameMode.Keys7:
+            //         direction = ConfigManager.ScrollDirection7K.Value;
+            //         break;
+            //     default:
+            //         throw new Exception("Map Mode does not exist.");
+            // }
 
             // Case: Config = Split Scroll
             if (direction.Equals(ScrollDirection.Split))
@@ -266,7 +266,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
         /// </summary>
         private void SetReferencePositions()
         {
-            var skin = SkinManager.Skin.Keys[Screen.Map.Mode];
+            var skin = SkinManager.Skin.Keys[Screen.Map.KeyCount];
             ReceptorPositionY = new float[ScrollDirections.Length];
             ColumnLightingPositionY = new float[ScrollDirections.Length];
             HitPositionY = new float[ScrollDirections.Length];
@@ -284,7 +284,7 @@ namespace Quaver.Shared.Screens.Gameplay.Rulesets.Keys.Playfield
                 var holdEndOffset = LaneSize * skin.NoteHoldEnds[i].Height / skin.NoteHoldEnds[i].Width;
                 var receptorOffset = LaneSize * skin.NoteReceptorsUp[i].Height / skin.NoteReceptorsUp[i].Width;
 
-                if (SkinManager.Skin.Keys[Screen.Map.Mode].DrawLongNoteEnd)
+                if (SkinManager.Skin.Keys[Screen.Map.KeyCount].DrawLongNoteEnd)
                     LongNoteSizeAdjustment[i] = (holdHitObOffset - holdEndOffset) / 2;
                 else
                     LongNoteSizeAdjustment[i] = holdHitObOffset / 2;
