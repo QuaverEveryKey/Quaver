@@ -1356,7 +1356,7 @@ namespace Quaver.Shared.Config
 
                 if (prop.Name == nameof(KeyManiaBinds))
                 {
-                    for (var keyMode = 0; keyMode < Qua.MAX_KEY_COUNT; keyMode++)
+                    for (var keyMode = 1; keyMode <= Qua.MAX_KEY_COUNT; keyMode++)
                         for (var key = 1; key <= keyMode; key++)
                         {
                             sb.AppendLine($"KeyMania{keyMode}K{key}" + " = " + KeyManiaBinds[keyMode][key - 1].ToString());
