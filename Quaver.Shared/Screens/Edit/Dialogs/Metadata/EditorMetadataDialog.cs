@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Quaver.API.Maps;
 using Quaver.Shared.Assets;
@@ -33,7 +34,9 @@ namespace Quaver.Shared.Screens.Edit.Dialogs.Metadata
 
         private LabelledTextbox Tags { get; set; }
 
-        private EditorMetadataModeDropdown GameMode { get; set; }
+        // private EditorMetadataModeDropdown GameMode { get; set; }
+
+        private LabelledTextbox KeyCount { get; set; }
 
         private Tooltip CurrentToolTip { get; set; }
 
@@ -73,7 +76,7 @@ namespace Quaver.Shared.Screens.Edit.Dialogs.Metadata
             CreateDifficultyNameTextbox();
             CreateSourceTextbox();
             CreateTagsTextbox();
-            CreateGameModeDropdown();
+            CreateKeyCountTextbox();
             CreateBpmAffectsSvCheckbox();
             CreateLegacyLNRenderingCheckbox();
 
@@ -189,14 +192,33 @@ namespace Quaver.Shared.Screens.Edit.Dialogs.Metadata
             };
         }
 
-        private void CreateGameModeDropdown()
+        // private void CreateGameModeDropdown()
+        // {
+        //     GameMode = new EditorMetadataModeDropdown(Screen.WorkingMap)
+        //     {
+        //         Parent = Panel,
+        //         Y = Tags.Y + Tags.Height + Spacing,
+        //         X = 70,
+        //         Alignment = Alignment.TopLeft,
+        //     };
+        // }
+
+        private void CreateKeyCountTextbox()
         {
-            GameMode = new EditorMetadataModeDropdown(Screen.WorkingMap)
+            KeyCount = new LabelledTextbox(Artist.Width / 2, "Key Count", LabelSize, TextboxHeight, LabelSize,
+                TextboxLabelSpacing, "Enter the number of keys for this map", WorkingMap.KeyCount.ToString())
             {
                 Parent = Panel,
                 Y = Tags.Y + Tags.Height + Spacing,
-                X = 70,
+                X = (Panel.Width - Artist.Width) / 2,
                 Alignment = Alignment.TopLeft,
+                Tint = Color.Transparent,
+                Textbox =
+                {
+                    AllowSubmission = false,
+                    // matches 1-64
+                    AllowedCharacters = new Regex("^[1-9]$|^[1-5][0-9]$|^6[0-4]$")
+                }
             };
         }
 
@@ -207,8 +229,8 @@ namespace Quaver.Shared.Screens.Edit.Dialogs.Metadata
                 new QuaverCheckbox(new Bindable<bool>(!WorkingMap.BPMDoesNotAffectScrollVelocity)) { DisposeBindableOnDestroy = true })
             {
                 Parent = Panel,
-                Y = GameMode.Y + 7,
-                X = -GameMode.X + 25,
+                Y = KeyCount.Y + 7,
+                X = -KeyCount.X,
                 Alignment = Alignment.TopRight,
             };
         }
@@ -233,7 +255,7 @@ namespace Quaver.Shared.Screens.Edit.Dialogs.Metadata
             DifficultyName.Visible = false;
             Source.Visible = false;
             Tags.Visible = false;
-            GameMode.Visible = false;
+            KeyCount.Visible = false;
             BpmAffectsScrollVelocity.Visible = false;
             LegacyLNRendering.Visible = false;
 
@@ -264,7 +286,7 @@ namespace Quaver.Shared.Screens.Edit.Dialogs.Metadata
                     WorkingMap.NormalizeSVs();
             }
 
-            WorkingMap.KeyCount = GameMode.SelectedMode;
+            WorkingMap.KeyCount = int.Parse(KeyCount.Textbox.RawText.Trim());
 
             // Remove all objects that are above lane 4
             // if (WorkingMap.KeyCount == API.Enums.GameMode.Keys4)
