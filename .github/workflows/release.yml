@@ -1,0 +1,74 @@
+name: Build and Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: string
+      releaseName:
+        required: true
+        type: string
+      tag:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [win-x64, linux-x64, linux-arm64, osx-x64, osx-arm64]     
+    outputs:
+      output1: ${{ steps.artifact-upload-step.outputs.artifact-id }}
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 6.0.x
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
+    - name: Publish
+      run: dotnet publish -o ./publish/${{ matrix.target }} -f net6.0 -r ${{ matrix.target }} --sc /p:Version="${{ inputs.version }}"
+      continue-on-error: true
+
+    - name: Zip builds
+      run: |
+        cd ./publish/${{ matrix.target }}
+        zip -r ../../QuaverEveryKey-${{ matrix.target }}.zip *
+        cd ../..
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: "QuaverEveryKey-${{ matrix.target }}"
+        path: ./QuaverEveryKey-${{ matrix.target }}.zip
+        retention-days: 1
+        compression-level: 0
+
+  release:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Retrieve artifact
+      uses: actions/download-artifact@v4
+      with:
+        pattern: QuaverEveryKey-*
+        path: artifact
+        merge-multiple: true
+        
+
+    - name: GitHub Release
+      run: |
+        find artifact
+
+        git tag ${{ inputs.tag }}
+        git push origin ${{ inputs.tag }}
+        gh release create ${{ inputs.releaseName }} -p -t "${{ inputs.version }}" artifact/*.zip
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
