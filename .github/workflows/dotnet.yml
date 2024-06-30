@@ -8,6 +8,7 @@ on:
     branches: [ "ui-redesign" ]
   pull_request:
     branches: [ "ui-redesign" ]
+  workflow_call:
 
 jobs:
   build:
