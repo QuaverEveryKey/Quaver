@@ -69,6 +69,6 @@ jobs:
 
         git tag ${{ inputs.tag }}
         git push origin ${{ inputs.tag }}
-        gh release create ${{ inputs.releaseName }} -p -t "${{ inputs.version }}" artifact/*.zip
+        gh release create ${{ inputs.releaseName }} -p -t "${{ inputs.tag }}" artifact/*.zip
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
