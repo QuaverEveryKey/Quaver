@@ -32,7 +32,7 @@ jobs:
       run: git submodule update --init --recursive
     - name: Publish
       run: |
-        apt install xmlstarlet
+        sudo apt install xmlstarlet
         xmlstarlet ed -L -u /Project/PropertyGroup/Version -v "${{ inputs.version }}" ./Quaver/Quaver.csproj
         dotnet publish -o ./publish/${{ matrix.target }} -f net6.0 -r ${{ matrix.target }} --sc
       continue-on-error: true
