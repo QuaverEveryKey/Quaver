@@ -31,7 +31,9 @@ jobs:
     - name: Checkout submodules
       run: git submodule update --init --recursive
     - name: Publish
-      run: dotnet publish -o ./publish/${{ matrix.target }} -f net6.0 -r ${{ matrix.target }} --sc /p:Version="${{ inputs.version }}"
+      run: |
+        xmlstarlet ed -L -u /Project/PropertyGroup/Version -v "${{ inputs.version }}" ./Quaver/Quaver.csproj
+        dotnet publish -o ./publish/${{ matrix.target }} -f net6.0 -r ${{ matrix.target }} --sc
       continue-on-error: true
 
     - name: Zip builds
