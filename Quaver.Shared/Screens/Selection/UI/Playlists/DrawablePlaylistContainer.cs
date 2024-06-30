@@ -63,6 +63,7 @@ namespace Quaver.Shared.Screens.Selection.UI.Playlists
         ///     The game modes the mapset has
         /// </summary>
         private Sprite GameModes { get; set; }
+        private SpriteTextPlus GameModeText { get; set; }
 
         /// <summary>
         ///     Signifies if the playlist is online
@@ -137,7 +138,9 @@ namespace Quaver.Shared.Screens.Selection.UI.Playlists
             DifficultyDisplay.X = Creator.X + Creator.Width + metadataSpacing;
 
             RankedStatusSprite.Image = GetRankedStatusImage();
-            GameModes.Image = GetGameModeImage();
+            GameModes.Image = UserInterface.ModePanel;
+            GameModes.Tint = DrawableMapsetContainer.GetGameModeColor(item.Maps);
+            GameModeText.Text = item.Maps.DistinctBy(x => x.KeyCount).Count() > 1 ? "M" : item.Maps.First().KeyCount.ToString();
             Banner.UpdateContent(Playlist.Item);
 
             if (Playlist.IsSelected)
@@ -398,34 +401,34 @@ namespace Quaver.Shared.Screens.Selection.UI.Playlists
         ///     Gets the image for the game mode(s)
         /// </summary>
         /// <returns></returns>
-        private Texture2D GetGameModeImage()
-        {
-            if (Playlist.Item.Maps.Count == 0)
-                return UserInterface.KeysNonePanel;
+        // private Texture2D GetGameModeImage()
+        // {
+        //     if (Playlist.Item.Maps.Count == 0)
+        //         return UserInterface.KeysNonePanel;
 
-            var has4k = false;
-            var has7K = false;
+        //     var has4k = false;
+        //     var has7K = false;
 
-            foreach (var map in Playlist.Item.Maps)
-            {
-                switch (map.KeyCount)
-                {
-                    case 4:
-                        has4k = true;
-                        break;
-                    case 7:
-                        has7K = true;
-                        break;
-                }
-            }
+        //     foreach (var map in Playlist.Item.Maps)
+        //     {
+        //         switch (map.KeyCount)
+        //         {
+        //             case 4:
+        //                 has4k = true;
+        //                 break;
+        //             case 7:
+        //                 has7K = true;
+        //                 break;
+        //         }
+        //     }
 
-            if (has4k && !has7K)
-                return SkinManager.Skin?.SongSelect?.GameMode4K ?? UserInterface.Keys4Panel;
-            if (has7K && !has4k)
-                return SkinManager.Skin?.SongSelect?.GameMode7K ?? UserInterface.Keys7Panel;
+        //     if (has4k && !has7K)
+        //         return SkinManager.Skin?.SongSelect?.GameMode4K ?? UserInterface.Keys4Panel;
+        //     if (has7K && !has4k)
+        //         return SkinManager.Skin?.SongSelect?.GameMode7K ?? UserInterface.Keys7Panel;
 
-            return SkinManager.Skin?.SongSelect?.GameMode4K7K ?? UserInterface.BothModesPanel;
-        }
+        //     return SkinManager.Skin?.SongSelect?.GameMode4K7K ?? UserInterface.BothModesPanel;
+        // }
 
         /// <summary>
         /// </summary>

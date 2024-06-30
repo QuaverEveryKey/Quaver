@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -79,6 +80,7 @@ namespace Quaver.Shared.Screens.Selection.UI.Mapsets
         ///     The game modes the mapset has
         /// </summary>
         private Sprite GameModes { get; set; }
+        private SpriteTextPlus GameModeText { get; set; }
 
         /// <summary>
         /// </summary>
@@ -214,7 +216,9 @@ namespace Quaver.Shared.Screens.Selection.UI.Mapsets
             Creator.X = ByText.X + ByText.Width + ArtistCreatorSpacingX;
 
             RankedStatusSprite.Image = GetRankedStatusImage();
-            GameModes.Image = GetGameModeImage();
+            GameModes.Image = UserInterface.ModePanel;
+            GameModes.Tint = GetGameModeColor(ParentMapset.Item.Maps);
+            GameModeText.Text = ParentMapset.Item.Maps.DistinctBy(x => x.KeyCount).Count() > 1 ? "M" : ParentMapset.Item.Maps.First().KeyCount.ToString();
 
             if (ParentMapset.IsSelected)
                 Select(true);
@@ -361,6 +365,14 @@ namespace Quaver.Shared.Screens.Selection.UI.Mapsets
                 X = RankedStatusSprite.X - RankedStatusSprite.Width - 18,
                 UsePreviousSpriteBatchOptions = true
             };
+
+            GameModeText = new SpriteTextPlus(Title.Font, "-", 20)
+            {
+                Parent = GameModes,
+                Alignment = Alignment.MidCenter,
+                UsePreviousSpriteBatchOptions = true,
+                Tint = Color.White
+            };
         }
 
         /// <summary>
@@ -430,30 +442,39 @@ namespace Quaver.Shared.Screens.Selection.UI.Mapsets
         ///     Gets the image for the game mode(s)
         /// </summary>
         /// <returns></returns>
-        private Texture2D GetGameModeImage()
+        // private Texture2D GetGameModeImage()
+        // {
+        //     var has4k = false;
+        //     var has7K = false;
+
+        //     foreach (var map in ParentMapset.Item.Maps)
+        //     {
+        //         switch (map.KeyCount)
+        //         {
+        //             case 4:
+        //                 has4k = true;
+        //                 break;
+        //             case 7:
+        //                 has7K = true;
+        //                 break;
+        //         }
+        //     }
+
+        //     if (has4k && !has7K)
+        //         return SkinManager.Skin?.SongSelect?.GameMode4K ?? UserInterface.Keys4Panel;
+        //     if (has7K && !has4k)
+        //         return SkinManager.Skin?.SongSelect?.GameMode7K ?? UserInterface.Keys7Panel;
+
+        //     return SkinManager.Skin?.SongSelect?.GameMode4K7K ?? UserInterface.BothModesPanel;
+        // }
+        public static Color GetGameModeColor(List<Map> maps)
         {
-            var has4k = false;
-            var has7K = false;
-
-            foreach (var map in ParentMapset.Item.Maps)
-            {
-                switch (map.KeyCount)
-                {
-                    case 4:
-                        has4k = true;
-                        break;
-                    case 7:
-                        has7K = true;
-                        break;
-                }
-            }
-
-            if (has4k && !has7K)
-                return SkinManager.Skin?.SongSelect?.GameMode4K ?? UserInterface.Keys4Panel;
-            if (has7K && !has4k)
-                return SkinManager.Skin?.SongSelect?.GameMode7K ?? UserInterface.Keys7Panel;
-
-            return SkinManager.Skin?.SongSelect?.GameMode4K7K ?? UserInterface.BothModesPanel;
+            if (maps.DistinctBy(x => x.KeyCount).Count() > 1)
+                return Color.Gray;
+            
+            var keyCount = maps.First().KeyCount;
+            var r = new Random(keyCount);
+            return new Color(r.Next(64, 192), r.Next(64, 192), r.Next(64, 192));
         }
 
         /// <summary>
